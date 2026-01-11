@@ -1,5 +1,3 @@
-import React from "react";
-
 function RoadmapPreview() {
 	return (
 		<section id="roadmaps" className="scroll-mt-20">

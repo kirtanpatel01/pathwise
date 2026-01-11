@@ -1,10 +1,7 @@
-import React from "react";
-import { Reveal } from "./reveal";
 import { SkillDNAIllustration } from "./skill-illustrator";
 
 function SkillDNADelta() {
 	return (
-		<Reveal>
       <section className="border-t bg-muted/30">
 			<div className="mx-auto max-w-7xl px-6 py-24">
 				<div className="grid gap-12 md:grid-cols-2 md:items-center">
@@ -83,8 +80,6 @@ function SkillDNADelta() {
 				</div>
 			</div>
 		</section>
-    </Reveal>
-
 	);
 }
 

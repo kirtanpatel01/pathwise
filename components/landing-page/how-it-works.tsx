@@ -1,10 +1,6 @@
-import React from "react";
-import { Reveal } from "./reveal";
-
 function HowItWorks() {
 	return (
-		<Reveal>
-      <section id="how-it-works" className="scroll-mt-20">
+		<section id="how-it-works" className="scroll-mt-20">
 			<div className="mx-auto max-w-7xl px-6 py-24">
 				<div className="mb-14 max-w-2xl">
 					<h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
@@ -17,7 +13,6 @@ function HowItWorks() {
 				</div>
 
 				<div className="grid gap-6 md:grid-cols-2">
-					{/* Skill Audit */}
 					<div className="rounded-xl border bg-card p-6 shadow-sm transition-shadow hover:shadow-md">
 						<h3 className="text-lg font-semibold">Skill Audit</h3>
 						<p className="mt-2 text-sm text-muted-foreground">
@@ -29,7 +24,6 @@ function HowItWorks() {
 						</p>
 					</div>
 
-					{/* Market Alignment */}
 					<div className="rounded-xl border bg-card p-6 shadow-sm transition-shadow hover:shadow-md">
 						<h3 className="text-lg font-semibold">
 							Market Alignment
@@ -43,21 +37,19 @@ function HowItWorks() {
 						</p>
 					</div>
 
-					{/* Technical Delta */}
 					<div className="rounded-xl border bg-card p-6 shadow-sm transition-shadow hover:shadow-md">
 						<h3 className="text-lg font-semibold">
 							Technical Delta
 						</h3>
 						<p className="mt-2 text-sm text-muted-foreground">
-							Pathwise identifies the exact skills you’re missing
-							— not 20 things, just what actually matters.
+							Pathwise identifies the exact skills you&apos;re
+							missing — not 20 things, just what actually matters.
 						</p>
 						<p className="mt-3 text-sm text-muted-foreground">
 							Clear gaps. Clear priorities.
 						</p>
 					</div>
 
-					{/* Dynamic Roadmap */}
 					<div className="rounded-xl border bg-card p-6 shadow-sm transition-shadow hover:shadow-md">
 						<h3 className="text-lg font-semibold">
 							Dynamic Roadmap
@@ -73,7 +65,6 @@ function HowItWorks() {
 				</div>
 			</div>
 		</section>
-    </Reveal>
 	);
 }
 

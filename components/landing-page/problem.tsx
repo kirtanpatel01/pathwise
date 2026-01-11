@@ -1,15 +1,11 @@
-import React from "react";
-import { Reveal } from "./reveal";
-
 function Problem() {
 	return (
-		<Reveal>
-      <section className="border-t bg-muted/30">
+		<section className="border-t bg-muted/30">
 			<div className="mx-auto max-w-3xl px-6 py-24 text-center">
 				<h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
-					The problem isn’t lack of effort.
+					The problem isn&apos;t lack of effort.
 					<br />
-					It’s lack of direction.
+					It&apos;s lack of direction.
 				</h2>
 
 				<p className="mt-6 text-base text-muted-foreground md:text-lg">
@@ -21,11 +17,11 @@ function Problem() {
 				<div className="mt-10 space-y-4 text-left">
 					<div className="rounded-lg border bg-card p-5 shadow-xs">
 						<p className="font-medium">
-							❌ Courses don’t map to job requirements
+							❌ Courses don&apos;t map to job requirements
 						</p>
 						<p className="mt-1 text-sm text-muted-foreground">
-							You learn topics, but don’t know if they actually
-							matter for your target role.
+							You learn topics, but don&apos;t know if they
+							actually matter for your target role.
 						</p>
 					</div>
 
@@ -53,7 +49,6 @@ function Problem() {
 				</p>
 			</div>
 		</section>
-    </Reveal>
 	);
 }
 

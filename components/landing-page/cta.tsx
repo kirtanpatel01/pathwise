@@ -1,11 +1,8 @@
-import React from "react";
 import { Button } from "../ui/button";
-import { Reveal } from "./reveal";
 
 function CTA() {
 	return (
-		<Reveal>
-      <section className="border-t">
+		<section className="border-t">
 			<div className="mx-auto max-w-4xl px-6 py-24 text-center">
 				<h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
 					Stop guessing. Start progressing.
@@ -24,7 +21,6 @@ function CTA() {
 				</div>
 			</div>
 		</section>
-    </Reveal>
 	);
 }
 

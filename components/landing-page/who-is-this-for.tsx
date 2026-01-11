@@ -1,8 +1,5 @@
-import { Reveal } from "./reveal";
-
 function WhoIsThisFor() {
 	return (
-		<Reveal>
       <section id="students" className="border-t bg-muted/30 scroll-mt-20">
 			<div className="mx-auto max-w-7xl px-6 py-24">
 				<div className="mb-14 max-w-2xl">
@@ -62,7 +59,6 @@ function WhoIsThisFor() {
 				</div>
 			</div>
 		</section>
-    </Reveal>
 	);
 }
 

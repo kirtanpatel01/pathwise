@@ -1,9 +1,5 @@
-import React from "react";
-import { Reveal } from "./reveal";
-
 function Trust() {
 	return (
-		<Reveal>
       <section>
 			<div className="mx-auto max-w-5xl px-6 py-24 text-center">
 				<h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
@@ -40,7 +36,6 @@ function Trust() {
 				</div>
 			</div>
 		</section>
-    </Reveal>
 	);
 }
 

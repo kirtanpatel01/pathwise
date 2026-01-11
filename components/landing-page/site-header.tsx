@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "motion/react";
 import { Menu } from "lucide-react";
 
 import {
@@ -23,10 +22,7 @@ export interface UserClaims {
 
 export function SiteHeader({ user }: { user?: UserClaims | null }) {
 	return (
-		<motion.header
-			initial={{ y: -12, opacity: 0 }}
-			animate={{ y: 0, opacity: 1 }}
-			transition={{ duration: 0.3, ease: "easeOut" }}
+		<header
 			className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur"
 		>
 			<div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
@@ -147,6 +143,6 @@ export function SiteHeader({ user }: { user?: UserClaims | null }) {
 					</Sheet>
 				</div>
 			</div>
-		</motion.header>
+		</header>
 	);
 }
