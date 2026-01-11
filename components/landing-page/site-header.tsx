@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useTheme } from "next-themes";
 import { Menu } from "lucide-react";
 
 import {
@@ -16,8 +15,6 @@ import { ModeToggle } from "../mode-toggle";
 import Link from "next/link";
 
 export function SiteHeader() {
-	const { theme, setTheme } = useTheme();
-
 	return (
 		<motion.header
 			initial={{ y: -12, opacity: 0 }}
@@ -38,7 +35,7 @@ export function SiteHeader() {
 
 				<nav className="hidden items-center gap-6 md:flex">
 					<a
-						href="#how-it-works"
+						href="/#how-it-works"
 						className="text-sm text-muted-foreground hover:text-foreground"
 					>
 						How it works

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "sonner";
 
 const jetBrainsMono = JetBrains_Mono({
 	weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
@@ -29,6 +30,7 @@ export default function RootLayout({
 					enableSystem
 					disableTransitionOnChange
 				>
+					<Toaster richColors />
 					{children}
 				</ThemeProvider>
 			</body>
