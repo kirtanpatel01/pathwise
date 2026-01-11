@@ -13,8 +13,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "../mode-toggle";
 import Link from "next/link";
+import { JwtHeader, JwtPayload } from "@supabase/supabase-js";
 
-export function SiteHeader() {
+export interface UserClaims {
+	claims: JwtPayload;
+	header: JwtHeader;
+	signature: Uint8Array;
+}
+
+export function SiteHeader({ user }: { user?: UserClaims | null }) {
 	return (
 		<motion.header
 			initial={{ y: -12, opacity: 0 }}
@@ -23,10 +30,7 @@ export function SiteHeader() {
 			className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur"
 		>
 			<div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-				<a
-					href="/"
-					className="flex items-center gap-2 font-semibold"
-				>
+				<a href="/" className="flex items-center gap-2 font-semibold">
 					<div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
 						P
 					</div>
@@ -56,18 +60,29 @@ export function SiteHeader() {
 
 				<div className="flex items-center gap-2">
 					<ModeToggle />
-					<div className="hidden md:flex gap-2">
-						<Link href={"/auth/login"}>
-							<Button variant="ghost" className="cursor-pointer">
-								Login
-							</Button>
-						</Link>
-						<Link href="/auth/signup">
+					{user ? (
+						<Link href="/dashboard" className="hidden md:block">
 							<Button className="cursor-pointer">
-								Get started
+								Dashboard
 							</Button>
 						</Link>
-					</div>
+					) : (
+						<div className="hidden md:flex gap-2">
+							<Link href={"/auth/login"}>
+								<Button
+									variant="ghost"
+									className="cursor-pointer"
+								>
+									Login
+								</Button>
+							</Link>
+							<Link href="/auth/signup">
+								<Button className="cursor-pointer">
+									Get started
+								</Button>
+							</Link>
+						</div>
+					)}
 
 					<Sheet>
 						<SheetTrigger asChild>
@@ -80,41 +95,53 @@ export function SiteHeader() {
 							</Button>
 						</SheetTrigger>
 
-						<SheetContent side="right" className="w-72">
+						<SheetContent side="right" className="w-72 lg:hidden">
 							<SheetHeader>
 								<SheetTitle>Actions</SheetTitle>
 							</SheetHeader>
 
-							<nav className="flex flex-col gap-4 px-4">
+							<nav className="flex flex-col gap-4 items-center">
 								<a
 									href="#how-it-works"
 									className="text-sm font-medium"
 								>
-									How it works
+									<Button variant={"link"}>
+										How it works
+									</Button>
 								</a>
 								<a
 									href="#roadmaps"
 									className="text-sm font-medium"
 								>
-									Roadmaps
+									<Button variant={"link"}>Roadmaps</Button>
 								</a>
 								<a
 									href="#students"
 									className="text-sm font-medium"
 								>
-									For students
+									<Button variant={"link"}>
+										For students
+									</Button>
 								</a>
 
-								<div className="mt-6 flex flex-col gap-2">
-									<Link href={"/auth/login"}>
-										<Button variant="ghost">Login</Button>
+								{user ? (
+									<Link href="/dashboard">
+										<Button>Dashboard</Button>
 									</Link>
-									<Link href="/auth/signup">
-										<Button className="cursor-pointer">
-											Get started
-										</Button>
-									</Link>
-								</div>
+								) : (
+									<div className="flex flex-col items-center gap-8 mt-3">
+										<Link href={"/auth/login"}>
+											<Button variant="outline">
+												Login
+											</Button>
+										</Link>
+										<Link href="/auth/signup">
+											<Button className="cursor-pointer">
+												Get started
+											</Button>
+										</Link>
+									</div>
+								)}
 							</nav>
 						</SheetContent>
 					</Sheet>

@@ -1,72 +1,176 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
-import { Separator } from "./ui/separator"
+"use client";
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form>
-            <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                />
-              </Field>
-              <Field>
-                <div className="flex items-center">
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-xs underline-offset-4 hover:underline opacity-90"
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
-                <Input id="password" type="password" required />
-              </Field>
-              <Field>
-                <Button type="submit" className="cursor-pointer">Login</Button>
-                <Separator className="my-4" />
-                <Button variant="outline" type="button" className="cursor-pointer">
-                  Login with Google
-                </Button>
-                <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="/auth/signup">Sign up</a>
-                </FieldDescription>
-              </Field>
-            </FieldGroup>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
-  )
+import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import {
+	Field,
+	FieldDescription,
+	FieldError,
+	FieldGroup,
+	FieldLabel,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { z } from "zod";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { loginUser } from "@/app/auth/actions";
+import { useRouter } from "next/navigation";
+
+const formSchema = z.object({
+	email: z.string().email("Invalid email address"),
+	password: z.string().min(1, "Password is required"),
+});
+
+export function LoginForm(props: React.ComponentProps<typeof Card>) {
+	const router = useRouter();
+
+	const {
+		control,
+		handleSubmit,
+		formState: { isSubmitting },
+		reset,
+	} = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			email: "",
+			password: "",
+		},
+	});
+
+	async function onSubmit(data: z.infer<typeof formSchema>) {
+		try {
+			const response = await loginUser(data);
+
+			if (response.success) {
+				toast.success("Logged in successfully");
+				reset();
+				router.push("/dashboard");
+			} else {
+				toast.error("Invalid credentials");
+			}
+		} catch (error) {
+			console.error("Login error:", error);
+			toast.error("Something went wrong. Please try again.");
+		}
+	}
+
+	return (
+		<Card {...props}>
+			<CardHeader>
+				<CardTitle>Login to your account</CardTitle>
+				<CardDescription>
+					Enter your credentials below to access your account
+				</CardDescription>
+			</CardHeader>
+
+			<CardContent>
+				{/* Google Login */}
+				<Button
+					variant="outline"
+					type="button"
+					className="w-full"
+					disabled={isSubmitting}
+				>
+					{isSubmitting ? "Please wait..." : "Login with Google"}
+				</Button>
+
+				<div className="my-4 flex items-center gap-3 text-sm text-muted-foreground">
+					<Separator className="flex-1" />
+					or
+					<Separator className="flex-1" />
+				</div>
+
+				<form id="login-form" onSubmit={handleSubmit(onSubmit)}>
+					<FieldGroup>
+						{/* Email */}
+						<Controller
+							name="email"
+							control={control}
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor="email">
+										Email
+									</FieldLabel>
+									<Input
+										{...field}
+										id="email"
+										type="email"
+										placeholder="john.doe@example.com"
+										aria-invalid={fieldState.invalid}
+										disabled={isSubmitting}
+									/>
+									{fieldState.invalid && (
+										<FieldError
+											errors={[fieldState.error]}
+										/>
+									)}
+								</Field>
+							)}
+						/>
+
+						{/* Password */}
+						<Controller
+							name="password"
+							control={control}
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<div className="flex items-center">
+										<FieldLabel htmlFor="password">
+											Password
+										</FieldLabel>
+										<a
+											href="/auth/forgot-password"
+											className="ml-auto text-xs underline-offset-4 hover:underline opacity-90"
+										>
+											Forgot password?
+										</a>
+									</div>
+									<Input
+										{...field}
+										id="password"
+										type="password"
+										aria-invalid={fieldState.invalid}
+										autoComplete="off"
+										disabled={isSubmitting}
+									/>
+									{fieldState.invalid && (
+										<FieldError
+											errors={[fieldState.error]}
+										/>
+									)}
+								</Field>
+							)}
+						/>
+					</FieldGroup>
+				</form>
+			</CardContent>
+
+			<CardFooter className="flex flex-col gap-4">
+				<Button
+					type="submit"
+					form="login-form"
+					className="w-full"
+					disabled={isSubmitting}
+				>
+					{isSubmitting ? "Logging in..." : "Login"}
+				</Button>
+
+				<FieldDescription className="px-6 text-center">
+					Don&apos;t have an account?{" "}
+					<a href="/auth/signup" className="underline">
+						Sign up
+					</a>
+				</FieldDescription>
+			</CardFooter>
+		</Card>
+	);
 }

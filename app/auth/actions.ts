@@ -34,3 +34,21 @@ export async function signupUser(formData: {
 
 	return { success: true };
 }
+
+export async function loginUser(formData: { email: string; password: string }) {
+	console.log("Logging in user:", formData);
+	if (formData.email === "" || formData.password === "") {
+		return { success: false, error: "All fields required" };
+	}
+	const supabase = await createClient();
+
+	const { data, error } = await supabase.auth.signInWithPassword({
+		email: formData.email,
+		password: formData.password,
+	});
+	if (error) {
+		console.log("Error during login:", error);
+		return { success: false, error: error.message };
+	}
+	return { success: true };
+}
