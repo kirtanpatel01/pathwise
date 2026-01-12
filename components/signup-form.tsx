@@ -57,7 +57,6 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
 	});
 
 	async function onSubmit(data: z.infer<typeof formSchema>) {
-		console.log("Form submitted:", data);
 		try {
 			const response = await signupUser({
 				name: data.name,
@@ -72,7 +71,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
 				toast.error("Signup failed. Please try again.");
 			}
 		} catch (error) {
-			console.log("Error while signing up the user: ", error);
+			console.error("Error while signing up the user: ", error);
 			toast.error("An error occurred during signup. Please try again.");
 		}
 	}

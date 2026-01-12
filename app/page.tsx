@@ -13,10 +13,8 @@ export default async function HomePage() {
 
 	const { data: user, error } = await supabase.auth.getClaims();
 	if (error) {
-		console.log("Error fetching user claims:", error);
+		console.error("Error fetching user claims:", error);
 	}
-
-	console.log(user);
 
 	return (
 		<>

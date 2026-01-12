@@ -14,7 +14,6 @@ import {
 	SidebarMenu,
 	SidebarMenuItem,
 	SidebarMenuButton,
-	SidebarRail,
 } from "@/components/ui/sidebar";
 
 import {
@@ -23,10 +22,9 @@ import {
 	Briefcase,
 	User,
 	LogOut,
-	Sun,
-	Moon,
 } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
+import { signOut } from "@/app/auth/actions";
 
 const navItems = [
 	{ title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -40,7 +38,6 @@ export function AppSidebar() {
 
 	return (
 		<Sidebar collapsible="icon">
-			{/* ================= Header ================= */}
 			<SidebarHeader>
 				<SidebarMenu>
 					<SidebarMenuItem>
@@ -56,7 +53,6 @@ export function AppSidebar() {
 				</SidebarMenu>
 			</SidebarHeader>
 
-			{/* ================= Content ================= */}
 			<SidebarContent>
 				<SidebarGroup>
 					<SidebarGroupLabel>Modules</SidebarGroupLabel>
@@ -98,7 +94,10 @@ export function AppSidebar() {
 							</SidebarMenuItem>
 
 							<SidebarMenuItem>
-								<SidebarMenuButton className="text-destructive">
+								<SidebarMenuButton
+									onClick={async () => await signOut()}
+									className="text-destructive hover:text-destructive hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/10"
+								>
 									<LogOut />
 									<span>Logout</span>
 								</SidebarMenuButton>
@@ -107,8 +106,6 @@ export function AppSidebar() {
 					</SidebarGroupContent>
 				</SidebarGroup>
 			</SidebarFooter>
-
-			<SidebarRail />
 		</Sidebar>
 	);
 }
