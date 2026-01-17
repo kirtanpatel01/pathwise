@@ -4,6 +4,7 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 type ModeToggleProps = {
 	className?: string;
@@ -12,9 +13,17 @@ type ModeToggleProps = {
 
 export function ModeToggle({ className, asChild }: ModeToggleProps) {
 	const { theme, setTheme, resolvedTheme } = useTheme();
+	const [mounted, setMounted] = useState(false);
 
-	const currentTheme =
-		theme === "system" ? resolvedTheme : theme;
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	if (!mounted) {
+		return null;
+	}
+
+	const currentTheme = theme === "system" ? resolvedTheme : theme;
 
 	const toggleTheme = () => {
 		setTheme(currentTheme === "dark" ? "light" : "dark");
@@ -52,10 +61,7 @@ export function ModeToggle({ className, asChild }: ModeToggleProps) {
 						toggleTheme();
 					}
 				}}
-				className={cn(
-					"select-none flex items-center",
-					className
-				)}
+				className={cn("select-none flex items-center", className)}
 			>
 				{Content}
 			</div>

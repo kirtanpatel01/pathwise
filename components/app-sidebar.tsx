@@ -16,13 +16,7 @@ import {
 	SidebarMenuButton,
 } from "@/components/ui/sidebar";
 
-import {
-	LayoutDashboard,
-	Map,
-	Briefcase,
-	User,
-	LogOut,
-} from "lucide-react";
+import { LayoutDashboard, Map, Briefcase, User, LogOut } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
 import { signOut } from "@/app/auth/actions";
 
@@ -42,7 +36,7 @@ export function AppSidebar() {
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton asChild>
-							<Link href="/overview">
+							<Link href="/dashboard">
 								<div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
 									P
 								</div>
@@ -83,28 +77,26 @@ export function AppSidebar() {
 
 			{/* ================= Footer ================= */}
 			<SidebarFooter>
-				<SidebarGroup>
-					<SidebarGroupLabel>Actions</SidebarGroupLabel>
-					<SidebarGroupContent>
-						<SidebarMenu>
-							<SidebarMenuItem>
-								<SidebarMenuButton>
-									<ModeToggle asChild />
-								</SidebarMenuButton>
-							</SidebarMenuItem>
+				<SidebarGroupLabel>Actions</SidebarGroupLabel>
+				<SidebarGroupContent>
+					<SidebarMenu>
+						<SidebarMenuItem>
+							<SidebarMenuButton>
+								<ModeToggle asChild />
+							</SidebarMenuButton>
+						</SidebarMenuItem>
 
-							<SidebarMenuItem>
-								<SidebarMenuButton
-									onClick={async () => await signOut()}
-									className="text-destructive hover:text-destructive hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/10"
-								>
-									<LogOut />
-									<span>Logout</span>
-								</SidebarMenuButton>
-							</SidebarMenuItem>
-						</SidebarMenu>
-					</SidebarGroupContent>
-				</SidebarGroup>
+						<SidebarMenuItem>
+							<SidebarMenuButton
+								onClick={async () => await signOut()}
+								className="text-destructive hover:text-destructive hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/10"
+							>
+								<LogOut />
+								<span>Logout</span>
+							</SidebarMenuButton>
+						</SidebarMenuItem>
+					</SidebarMenu>
+				</SidebarGroupContent>
 			</SidebarFooter>
 		</Sidebar>
 	);

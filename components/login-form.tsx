@@ -24,6 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { loginUser } from "@/app/auth/actions";
 import { useRouter } from "next/navigation";
+import GoogleLoginBtn from "./google-login-btn";
 
 const formSchema = z.object({
 	email: z.string().email("Invalid email address"),
@@ -73,16 +74,7 @@ export function LoginForm(props: React.ComponentProps<typeof Card>) {
 			</CardHeader>
 
 			<CardContent>
-				{/* Google Login */}
-				<Button
-					variant="outline"
-					type="button"
-					className="w-full"
-					disabled={isSubmitting}
-				>
-					{isSubmitting ? "Please wait..." : "Login with Google"}
-				</Button>
-
+				<GoogleLoginBtn />
 				<div className="my-4 flex items-center gap-3 text-sm text-muted-foreground">
 					<Separator className="flex-1" />
 					or
@@ -117,7 +109,6 @@ export function LoginForm(props: React.ComponentProps<typeof Card>) {
 							)}
 						/>
 
-						{/* Password */}
 						<Controller
 							name="password"
 							control={control}
