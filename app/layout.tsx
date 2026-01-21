@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
+import { Karla } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "sonner";
 
-const jetBrainsMono = JetBrains_Mono({
-	weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
+const karla = Karla({
+	weight: ["200", "300", "400", "500", "600", "700", "800"],
 	subsets: ["latin"]
 })
 
@@ -22,7 +22,7 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${jetBrainsMono.className} antialiased`}
+				className={`${karla.className} antialiased`}
 			>
 				<ThemeProvider
 					attribute={"class"}
