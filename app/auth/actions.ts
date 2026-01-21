@@ -18,11 +18,11 @@ export async function signupUser(formData: {
 
 	const supabase = await createClient();
 
-	const { data, error } = await supabase.auth.signUp({
+	const { error } = await supabase.auth.signUp({
 		email: formData.email,
 		password: formData.password,
 		options: {
-			emailRedirectTo: `${process.env.SITE_URL}/auth/confirm?next=/onboarding`,
+			emailRedirectTo: `${process.env.SITE_URL}/auth/confirm`,
 		},
 	});
 
@@ -34,28 +34,50 @@ export async function signupUser(formData: {
 	return { success: true };
 }
 
-export async function loginUser(formData: { email: string; password: string }) {
-	if (formData.email === "" || formData.password === "") {
-		return { success: false, error: "All fields required" };
-	}
+export async function loginUser({
+	email,
+	password,
+}: {
+	email: string;
+	password: string;
+}) {
 	const supabase = await createClient();
-	
+
 	const { data, error } = await supabase.auth.signInWithPassword({
-		email: formData.email,
-		password: formData.password,
+		email,
+		password,
 	});
-	if (error) {
-		console.error("Error during login:", error);
-		return { success: false, error: error.message };
+
+	if (error || !data.user) {
+		return { success: false };
 	}
-	return { success: true };
+
+	const userId = data.user.id;
+
+	const { data: profile } = await supabase
+		.from("profiles")
+		.select("onboarding_step")
+		.eq("user_id", userId)
+		.maybeSingle();
+
+	if (!profile || profile.onboarding_step < 4) {
+		return {
+			success: true,
+			redirectTo: "/onboarding/profile",
+		};
+	}
+
+	return {
+		success: true,
+		redirectTo: "/dashboard",
+	};
 }
 
 export async function signOut() {
 	const supabase = await createClient();
-  const { error } = await supabase.auth.signOut()
-	if(!error) {
-		redirect('/auth/login');
+	const { error } = await supabase.auth.signOut();
+	if (!error) {
+		redirect("/auth/login");
 	}
-	console.error("Error while logging out: ", error)
+	console.error("Error while logging out: ", error);
 }

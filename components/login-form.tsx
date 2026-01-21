@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import { loginUser } from "@/app/auth/actions";
 import { useRouter } from "next/navigation";
 import GoogleLoginBtn from "./google-login-btn";
+import { createClient } from "@/lib/supabase/client";
 
 const formSchema = z.object({
 	email: z.string().email("Invalid email address"),
@@ -51,16 +52,18 @@ export function LoginForm(props: React.ComponentProps<typeof Card>) {
 		try {
 			const response = await loginUser(data);
 
-			if (response.success) {
-				toast.success("Logged in successfully");
-				reset();
-				router.push("/dashboard");
-			} else {
+			if (!response.success) {
 				toast.error("Invalid credentials");
+				return;
 			}
+
+			toast.success("Logged in successfully");
+			reset();
+
+			router.push(response.redirectTo || "/dashboard");
 		} catch (error) {
-			console.error("Login error:", error);
-			toast.error("Something went wrong. Please try again.");
+			console.error(error);
+			toast.error("Something went wrong");
 		}
 	}
 
