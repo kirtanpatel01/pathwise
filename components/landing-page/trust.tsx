@@ -1,7 +1,7 @@
 function Trust() {
 	return (
       <section>
-			<div className="mx-auto max-w-5xl px-6 py-24 text-center">
+			<div className="landing-page-container text-center">
 				<h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
 					Designed for real-world outcomes
 				</h2>
@@ -11,7 +11,7 @@ function Trust() {
 					assumptions, trends, or generic advice.
 				</p>
 
-				<div className="mt-12 grid gap-6 md:grid-cols-3">
+				<div className="mt-6 sm:mt-12 grid gap-6 md:grid-cols-3">
 					<div className="rounded-lg border bg-card p-5 shadow-xs">
 						<p className="font-medium">Market-aligned skills</p>
 						<p className="mt-1 text-sm text-muted-foreground">

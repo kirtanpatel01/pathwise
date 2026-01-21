@@ -3,11 +3,10 @@ import { SkillDNAIllustration } from "./skill-illustrator";
 function SkillDNADelta() {
 	return (
       <section className="border-t bg-muted/30">
-			<div className="mx-auto max-w-7xl px-6 py-24">
-				<div className="grid gap-12 md:grid-cols-2 md:items-center">
-					{/* Left: Explanation */}
+			<div className="landing-page-container">
+				<div className="grid gap-6 sm:gap-12 md:grid-cols-2 md:items-center">
 					<div className="space-y-6">
-						<h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
+						<h2 className="landing-page-h1">
 							Skill DNA, not guesswork
 						</h2>
 
@@ -40,41 +39,17 @@ function SkillDNADelta() {
 						</ul>
 					</div>
 
-					{/* Right: Visual Representation */}
-					<div className="rounded-xl border bg-card p-6 shadow-sm">
+					<div className="rounded-xl border bg-card p-4 sm:p-6 shadow-sm">
 						<h3 className="mb-4 text-sm font-medium text-muted-foreground">
 							Example: Frontend Developer
 						</h3>
 						<SkillDNAIllustration />
 
 						<div className="space-y-3">
-							<div className="flex items-center justify-between rounded-md bg-muted px-3 py-2">
-								<span className="text-sm">HTML / CSS</span>
-								<span className="text-xs font-medium text-primary">
-									Ready
-								</span>
-							</div>
-
-							<div className="flex items-center justify-between rounded-md bg-muted px-3 py-2">
-								<span className="text-sm">JavaScript</span>
-								<span className="text-xs font-medium text-primary">
-									In progress
-								</span>
-							</div>
-
-							<div className="flex items-center justify-between rounded-md bg-muted px-3 py-2">
-								<span className="text-sm">React</span>
-								<span className="text-xs font-medium text-destructive">
-									Missing
-								</span>
-							</div>
-
-							<div className="flex items-center justify-between rounded-md bg-muted px-3 py-2">
-								<span className="text-sm">System Design</span>
-								<span className="text-xs font-medium text-destructive">
-									Missing
-								</span>
-							</div>
+							<SkillStatusItem label="HTML / CSS" status="ready" />
+							<SkillStatusItem label="JavaScript" status="in-progress" />
+							<SkillStatusItem label="React" status="missing" />
+							<SkillStatusItem label="System Design" status="missing" />
 						</div>
 					</div>
 				</div>
@@ -84,3 +59,38 @@ function SkillDNADelta() {
 }
 
 export default SkillDNADelta;
+
+type SkillStatus = "ready" | "in-progress" | "missing";
+
+type SkillStatusItemProps = {
+	label: string;
+	status: SkillStatus;
+};
+
+const statusStyles: Record<SkillStatus, string> = {
+	ready: "text-primary",
+	"in-progress": "text-primary/80",
+	missing: "text-destructive",
+};
+
+const statusLabels: Record<SkillStatus, string> = {
+	ready: "Ready",
+	"in-progress": "In progress",
+	missing: "Missing",
+};
+
+function SkillStatusItem({
+	label,
+	status,
+}: SkillStatusItemProps) {
+	return (
+		<div className="flex items-center justify-between rounded-md bg-muted px-3 py-2">
+			<span className="text-sm">{label}</span>
+			<span
+				className={`text-xs font-medium ${statusStyles[status]}`}
+			>
+				{statusLabels[status]}
+			</span>
+		</div>
+	);
+}

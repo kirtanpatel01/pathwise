@@ -1,8 +1,10 @@
+import { X } from "lucide-react";
+
 function Problem() {
 	return (
 		<section className="border-t bg-muted/30">
-			<div className="mx-auto max-w-3xl px-6 py-24 text-center">
-				<h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
+			<div className="landing-page-container text-center">
+				<h2 className="landing-page-h1">
 					The problem isn&apos;t lack of effort.
 					<br />
 					It&apos;s lack of direction.
@@ -14,10 +16,10 @@ function Problem() {
 					real jobs.
 				</p>
 
-				<div className="mt-10 space-y-4 text-left">
+				<div className="mt-4 sm:mt-10 space-y-4 text-left">
 					<div className="rounded-lg border bg-card p-5 shadow-xs">
 						<p className="font-medium">
-							❌ Courses don&apos;t map to job requirements
+							Courses don&apos;t map to job requirements
 						</p>
 						<p className="mt-1 text-sm text-muted-foreground">
 							You learn topics, but don&apos;t know if they
@@ -27,7 +29,7 @@ function Problem() {
 
 					<div className="rounded-lg border bg-card p-5 shadow-xs">
 						<p className="font-medium">
-							❌ Career advice is generic and outdated
+						Career advice is generic and outdated
 						</p>
 						<p className="mt-1 text-sm text-muted-foreground">
 							Everyone gets the same roadmap, regardless of their
@@ -36,7 +38,7 @@ function Problem() {
 					</div>
 
 					<div className="rounded-lg border bg-card p-5 shadow-xs">
-						<p className="font-medium">❌ Progress feels random</p>
+						<p className="font-medium">Progress feels random</p>
 						<p className="mt-1 text-sm text-muted-foreground">
 							You don’t know what to learn next — or when you’re
 							actually “ready”.
@@ -44,7 +46,7 @@ function Problem() {
 					</div>
 				</div>
 
-				<p className="mt-10 text-base font-medium">
+				<p className="mt-6 sm:mt-10 text-base font-medium">
 					Pathwise exists to fix this.
 				</p>
 			</div>

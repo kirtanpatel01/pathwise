@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 function CTA() {
 	return (
 		<section className="border-t">
-			<div className="mx-auto max-w-4xl px-6 py-24 text-center">
+			<div className="landing-page-container text-center">
 				<h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
 					Stop guessing. Start progressing.
 				</h2>

@@ -6,11 +6,11 @@ import { ArrowUpRight } from "lucide-react";
 function Hero() {
 	return (
 		<section className="relative overflow-hidden">
-			<div className="mx-auto max-w-7xl px-6 py-24">
-				<div className="grid gap-12 md:grid-cols-2 md:items-center">
+			<div className="landing-page-container">
+				<div className="grid gap-4 sm:gap-12 md:grid-cols-2 md:items-center">
 					{/* Left: Copy */}
 					<div className="space-y-6">
-						<h1 className="text-4xl font-bold leading-tight tracking-tight md:text-5xl">
+						<h1 className="landing-page-h1">
 							From skill confusion <br />
 							to career clarity
 						</h1>
@@ -49,7 +49,7 @@ function Hero() {
 					</div>
 
 					<div className="relative">
-						<div className="rounded-xl border bg-card p-6 shadow-sm">
+						<div className="rounded-md sm:rounded-xl border bg-card p-3 sm:p-6 shadow-sm">
 							<ol className="space-y-4">
 								{[
 									"Skill audit",
