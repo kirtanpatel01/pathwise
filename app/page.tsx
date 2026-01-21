@@ -7,6 +7,7 @@ import Problem from "@/components/landing-page/problem";
 import WhoIsThisFor from "@/components/landing-page/who-is-this-for";
 import Footer from "@/components/landing-page/footer";
 import { createClient } from "@/lib/supabase/server";
+import FinalCTA from "@/components/landing-page/cta";
 
 export default async function HomePage() {
 	const supabase = await createClient();
@@ -26,6 +27,7 @@ export default async function HomePage() {
 				<SkillDNADelta />
 				<RoadmapPreview />
 				<WhoIsThisFor />
+				<FinalCTA />
 			</main>
 			<Footer />
 		</>

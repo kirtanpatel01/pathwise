@@ -1,13 +1,15 @@
 "use client";
 
-import { Menu } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Menu, Zap } from "lucide-react";
+import { motion, useScroll, useSpring } from "framer-motion";
 
 import {
-	Sheet,
-	SheetContent,
-	SheetHeader,
-	SheetTitle,
-	SheetTrigger,
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "../mode-toggle";
@@ -15,134 +17,151 @@ import Link from "next/link";
 import { JwtHeader, JwtPayload } from "@supabase/supabase-js";
 
 export interface UserClaims {
-	claims: JwtPayload;
-	header: JwtHeader;
-	signature: Uint8Array;
+  claims: JwtPayload;
+  header: JwtHeader;
+  signature: Uint8Array;
 }
 
 export function SiteHeader({ user }: { user?: UserClaims | null }) {
-	return (
-		<header
-			className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur"
-		>
-			<div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-				<a href="/" className="flex items-center gap-2 font-semibold">
-					<div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
-						P
-					</div>
-					<span className="text-base">Pathwise</span>
-				</a>
+  const [isScrolled, setIsScrolled] = useState(false);
+  
+  // Scroll progress bar logic
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
-				<nav className="hidden items-center gap-6 md:flex">
-					<a
-						href="/#how-it-works"
-						className="text-sm text-muted-foreground hover:text-foreground"
-					>
-						How it works
-					</a>
-					<a
-						href="#roadmaps"
-						className="text-sm text-muted-foreground hover:text-foreground"
-					>
-						Roadmaps
-					</a>
-					<a
-						href="#students"
-						className="text-sm text-muted-foreground hover:text-foreground"
-					>
-						For students
-					</a>
-				</nav>
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-				<div className="flex items-center gap-2">
-					<ModeToggle />
-					{user ? (
-						<Link href="/dashboard" className="hidden md:block">
-							<Button className="cursor-pointer">
-								Dashboard
-							</Button>
-						</Link>
-					) : (
-						<div className="hidden md:flex gap-2">
-							<Link href={"/auth/login"}>
-								<Button
-									variant="ghost"
-									className="cursor-pointer"
-								>
-									Login
-								</Button>
-							</Link>
-							<Link href="/auth/signup">
-								<Button className="cursor-pointer">
-									Get started
-								</Button>
-							</Link>
-						</div>
-					)}
+  const navLinks = [
+    { name: "How it works", href: "#how-it-works" },
+    { name: "Roadmaps", href: "#roadmaps" },
+    { name: "For students", href: "#students" },
+  ];
 
-					<Sheet>
-						<SheetTrigger asChild>
-							<Button
-								size="icon"
-								variant="ghost"
-								className="md:hidden"
-							>
-								<Menu className="h-5 w-5" />
-							</Button>
-						</SheetTrigger>
+  return (
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        isScrolled 
+          ? "border-b bg-background/80 backdrop-blur-md py-2" 
+          : "bg-transparent py-4"
+      }`}
+    >
+      {/* Scroll Progress Indicator */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-left"
+        style={{ scaleX }}
+      />
 
-						<SheetContent side="right" className="w-72 lg:hidden">
-							<SheetHeader>
-								<SheetTitle>Actions</SheetTitle>
-							</SheetHeader>
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
+        {/* Logo Section */}
+        <Link href="/" className="group flex items-center gap-2 font-bold transition-transform active:scale-95">
+          <motion.div 
+            whileHover={{ rotate: 10 }}
+            className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/20"
+          >
+            <Zap className="h-5 w-5 fill-current" />
+          </motion.div>
+          <span className="text-xl tracking-tight">Pathwise</span>
+        </Link>
 
-							<nav className="flex flex-col gap-4 items-center">
-								<a
-									href="#how-it-works"
-									className="text-sm font-medium"
-								>
-									<Button variant={"link"}>
-										How it works
-									</Button>
-								</a>
-								<a
-									href="#roadmaps"
-									className="text-sm font-medium"
-								>
-									<Button variant={"link"}>Roadmaps</Button>
-								</a>
-								<a
-									href="#students"
-									className="text-sm font-medium"
-								>
-									<Button variant={"link"}>
-										For students
-									</Button>
-								</a>
+        {/* Desktop Navigation */}
+        <nav className="hidden items-center gap-8 md:flex">
+          {navLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-primary group"
+            >
+              {link.name}
+              <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary transition-all group-hover:w-full" />
+            </a>
+          ))}
+        </nav>
 
-								{user ? (
-									<Link href="/dashboard">
-										<Button>Dashboard</Button>
-									</Link>
-								) : (
-									<div className="flex flex-col items-center gap-8 mt-3">
-										<Link href={"/auth/login"}>
-											<Button variant="outline">
-												Login
-											</Button>
-										</Link>
-										<Link href="/auth/signup">
-											<Button className="cursor-pointer">
-												Get started
-											</Button>
-										</Link>
-									</div>
-								)}
-							</nav>
-						</SheetContent>
-					</Sheet>
-				</div>
-			</div>
-		</header>
-	);
+        {/* Action Buttons */}
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:block">
+            <ModeToggle />
+          </div>
+
+          {user ? (
+            <Link href="/dashboard" className="hidden md:block">
+              <Button className="rounded-full px-6 font-bold shadow-md hover:shadow-primary/20">
+                Dashboard
+              </Button>
+            </Link>
+          ) : (
+            <div className="hidden md:flex items-center gap-3">
+              <Link href="/auth/login">
+                <Button variant="ghost" className="rounded-full font-medium">
+                  Login
+                </Button>
+              </Link>
+              <Link href="/auth/signup">
+                <Button className="rounded-full px-6 font-bold shadow-lg shadow-primary/20">
+                  Get started
+                </Button>
+              </Link>
+            </div>
+          )}
+
+          {/* Mobile Menu */}
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button size="icon" variant="ghost" className="md:hidden rounded-full">
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="flex flex-col border-l-0 bg-background/95 backdrop-blur-xl">
+              <SheetHeader className="text-left border-b pb-6">
+                <SheetTitle className="flex items-center gap-2">
+                  <Zap className="h-5 w-5 text-primary fill-current" />
+                  Pathwise
+                </SheetTitle>
+              </SheetHeader>
+
+              <div className="flex flex-col gap-6 py-8">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="text-2xl font-bold tracking-tight hover:text-primary transition-colors"
+                  >
+                    {link.name}
+                  </a>
+                ))}
+              </div>
+
+              <div className="mt-auto flex flex-col gap-4 border-t pt-8">
+                {user ? (
+                  <Link href="/dashboard" className="w-full">
+                    <Button className="w-full h-12 text-lg font-bold">Dashboard</Button>
+                  </Link>
+                ) : (
+                  <>
+                    <Link href="/auth/login" className="w-full">
+                      <Button variant="outline" className="w-full h-12 text-lg">Login</Button>
+                    </Link>
+                    <Link href="/auth/signup" className="w-full">
+                      <Button className="w-full h-12 text-lg font-bold">Get started</Button>
+                    </Link>
+                  </>
+                )}
+                <div className="flex justify-center pt-4">
+                  <ModeToggle />
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
+    </header>
+  );
 }
