@@ -18,9 +18,10 @@ export default function Step2RolePage() {
 	const supabase = createClient();
 	const router = useRouter();
 
-	const { setStep, setMaxStepCompleted, setTargetRole } = useOnboardingStore();
+	const { setStep, setMaxStepCompleted, setTargetRole } =
+		useOnboardingStore();
 	const roles = useOnboardingStore((s) => s.roles);
-  const targetRole = useOnboardingStore((s) => s.targetRole);
+	const targetRole = useOnboardingStore((s) => s.targetRole);
 
 	const [loading, setLoading] = useState(false);
 
@@ -29,9 +30,9 @@ export default function Step2RolePage() {
 	});
 
 	useEffect(() => {
-			if (targetRole) {
-				form.reset({ role_id: targetRole });
-			}
+		if (targetRole) {
+			form.reset({ role_id: targetRole });
+		}
 	}, [targetRole]);
 
 	const hasRole = Boolean(targetRole);
@@ -69,7 +70,7 @@ export default function Step2RolePage() {
 			.eq("user_id", user.id);
 
 		// 3️⃣ update state
-    setTargetRole(data.role_id);
+		setTargetRole(data.role_id);
 		setStep(3);
 		setMaxStepCompleted(3);
 
@@ -77,65 +78,55 @@ export default function Step2RolePage() {
 	}
 
 	return (
-		<div className="relative max-w-xl mx-auto">
-			<Card>
-				<CardHeader>
-					<CardTitle>Select your target role</CardTitle>
-				</CardHeader>
+		<Card className="max-w-xl mx-auto rounded-none sm:rounded-xl">
+			<CardHeader>
+				<CardTitle>Select your target role</CardTitle>
+			</CardHeader>
 
-				<CardContent>
-					<form
-						onSubmit={form.handleSubmit(onSubmit)}
-						className="space-y-6"
-					>
-						<Controller
-							name="role_id"
-							control={form.control}
-							render={({ field, fieldState }) => (
-								<Field data-invalid={fieldState.invalid}>
-									<FieldLabel>Role</FieldLabel>
+			<CardContent>
+				<form
+					onSubmit={form.handleSubmit(onSubmit)}
+					className="space-y-6"
+				>
+					<Controller
+						name="role_id"
+						control={form.control}
+						render={({ field, fieldState }) => (
+							<Field data-invalid={fieldState.invalid}>
+								<FieldLabel>Role</FieldLabel>
 
-									<RadioGroup
-										value={field.value}
-										onValueChange={field.onChange}
-										className="space-y-2"
-									>
-										{roles.map((role) => (
-											<label
-												key={role.id}
-												className="flex items-center gap-3 border rounded-lg p-3 cursor-pointer"
-											>
-												<RadioGroupItem
-													value={role.id}
-												/>
-												<span>{role.role_name}</span>
-											</label>
-										))}
-									</RadioGroup>
+								<RadioGroup
+									value={field.value}
+									onValueChange={field.onChange}
+									className="space-y-2"
+								>
+									{roles.map((role) => (
+										<label
+											key={role.id}
+											className="flex items-center gap-3 border rounded-lg p-3 cursor-pointer"
+										>
+											<RadioGroupItem value={role.id} />
+											<span>{role.role_name}</span>
+										</label>
+									))}
+								</RadioGroup>
 
-									{fieldState.invalid && (
-										<FieldError
-											errors={[fieldState.error]}
-										/>
-									)}
-								</Field>
-							)}
-						/>
+								{fieldState.invalid && (
+									<FieldError errors={[fieldState.error]} />
+								)}
+							</Field>
+						)}
+					/>
 
-						<Button
-							type="submit"
-							disabled={loading}
-							className="w-full"
-						>
-							{loading
-								? "Saving..."
-								: hasRole
-									? "Update"
-									: "Continue"}
-						</Button>
-					</form>
-				</CardContent>
-			</Card>
-		</div>
+					<Button type="submit" disabled={loading} className="w-full">
+						{loading
+							? "Saving..."
+							: hasRole
+								? "Update"
+								: "Continue"}
+					</Button>
+				</form>
+			</CardContent>
+		</Card>
 	);
 }

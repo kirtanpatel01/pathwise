@@ -79,7 +79,7 @@ export default function Step3SkillsPage() {
 	);
 
 	return (
-		<Card className="max-w-lg">
+		<Card className="max-w-lg mx-auto rounded-none sm:rounded-xl">
 			<CardHeader className="space-y-2">
 				<CardTitle>Select your skills</CardTitle>
 				<CardDescription>

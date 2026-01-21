@@ -110,7 +110,7 @@ export default function Step4LinksPage() {
 	}
 
 	return (
-		<Card className="max-w-xl mx-auto">
+		<Card className="max-w-xl mx-auto rounded-none sm:rounded-xl">
 			<CardHeader className="space-y-2">
 				<CardTitle>Add your links</CardTitle>
 				<CardDescription>

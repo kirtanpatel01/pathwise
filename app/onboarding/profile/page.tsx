@@ -100,7 +100,7 @@ export default function Step1ProfilePage() {
 	);
 
 	return (
-		<Card className="max-w-xl mx-auto">
+		<Card className="max-w-xl mx-auto rounded-none sm:rounded-xl">
 			<CardHeader>
 				<CardTitle>Tell us about yourself</CardTitle>
 				<CardDescription>

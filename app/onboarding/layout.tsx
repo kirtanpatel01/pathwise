@@ -7,6 +7,7 @@ import Stepper from "@/components/onboarding/stepper";
 import { ModeToggle } from "@/components/mode-toggle";
 import { OnboardingArrows } from "@/components/onboarding/onboarding-arrows";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export default function OnboardingLayout({
 	children,
@@ -113,12 +114,25 @@ export default function OnboardingLayout({
 	}
 
 	return (
-		<div className="flex items-center justify-center p-4">
-			<ModeToggle className="absolute top-4 right-4" />
-			<div className="relative max-w-3xl mx-auto px-4 py-10 space-y-8">
-				<Stepper />
-				{children}
-				<OnboardingArrows />
+		<div className="min-h-screen bg-background">
+			<ModeToggle className="fixed top-2.5 sm:top-4 right-2 sm:right-4 z-50" />
+
+			<div
+				className={cn(
+					// mobile spacing for fixed header + footer
+					"pt-14 sm:pt-20 pb-0 sm:pb-24 px-0 sm:px-4",
+					// desktop normal spacing
+					"lg:pt-6 lg:pb-6",
+				)}
+			>
+				<div className="w-full max-w-3xl mx-auto flex flex-col gap-6">
+					<Stepper />
+
+					<div className="relative">
+						{children}
+						<OnboardingArrows />
+					</div>
+				</div>
 			</div>
 		</div>
 	);
