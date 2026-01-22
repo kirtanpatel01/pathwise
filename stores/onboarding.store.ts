@@ -22,11 +22,11 @@ type OnboardingState = {
 
 	targetRole?: string;
 
-userSkills: {
-  skill_id: string;
-  proficiency: number;
-  used_in_project: boolean;
-}[];
+	userSkills: {
+		skill_id: string;
+		proficiency: number;
+		used_in_project: boolean;
+	}[];
 
 	skillsMaster: Skill[];
 	skillsLoaded: boolean;
@@ -79,7 +79,7 @@ export const useOnboardingStore = create<OnboardingState>()(
 					roles,
 					rolesLoaded: true,
 				}),
-        
+
 			setTargetRole: (roleId) => set({ targetRole: roleId }),
 			setSkillsMaster: (skills) =>
 				set({ skillsMaster: skills, skillsLoaded: true }),

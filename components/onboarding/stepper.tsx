@@ -25,11 +25,10 @@ export default function Stepper() {
         // mobile fixed header
         "fixed top-0 left-0 right-0 z-40 bg-background border-b",
         "px-4 py-3",
-        // desktop normal flow
         "lg:static lg:border-none lg:px-0 lg:py-0"
       )}
     >
-      <div className="flex items-center justify-between gap-2 max-w-3xl mx-auto">
+      <div className="flex items-center justify-between gap-2 mx-auto">
         {steps.map((s, index) => {
           const isClickable = s.id <= maxStepCompleted;
 

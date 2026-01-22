@@ -42,6 +42,7 @@ export default function OnboardingLayout({
 				return;
 			}
 
+			// roles
 			if (!rolesLoaded) {
 				const { data: roles } = await supabase
 					.from("roles_master")
@@ -50,6 +51,7 @@ export default function OnboardingLayout({
 				setRoles(roles ?? []);
 			}
 
+			// skills
 			if (!skillsLoaded) {
 				const { data: skills } = await supabase
 					.from("skills_master")
@@ -58,6 +60,7 @@ export default function OnboardingLayout({
 				setSkillsMaster(skills ?? []);
 			}
 
+			// user skills (optional)
 			const { data: userSkills } = await supabase
 				.from("user_skills")
 				.select("skill_id, proficiency, used_in_project")
@@ -65,38 +68,36 @@ export default function OnboardingLayout({
 
 			setUserSkills(userSkills ?? []);
 
-			const { data } = await supabase
+			// target role (optional)
+			const { data: targetRole } = await supabase
 				.from("user_target_role")
 				.select("role_id")
 				.eq("user_id", user.id)
 				.maybeSingle();
 
-			const { data: profile, error } = await supabase
+			setTargetRole(targetRole?.role_id);
+
+			// profile (OPTIONAL)
+			const { data: profile } = await supabase
 				.from("profiles")
 				.select("*")
 				.eq("user_id", user.id)
 				.maybeSingle();
 
-			if (error) {
-				console.error("Hydration error:", error);
-				return;
+			if (profile) {
+				setProfile({
+					full_name: profile.full_name,
+					institute: profile.institute,
+					status: profile.status,
+					graduation_year: profile.graduation_year,
+					location: profile.location,
+				});
+
+				setMaxStepCompleted(profile.onboarding_step ?? 1);
 			}
 
-			if (!profile) return;
-
-			// hydrate Zustand
-			setProfile({
-				full_name: profile.full_name,
-				institute: profile.institute,
-				status: profile.status,
-				graduation_year: profile.graduation_year,
-				location: profile.location,
-			});
-
-			setTargetRole(data?.role_id ?? "");
-
+			// 👇 ALWAYS CALL THIS
 			setStep(currentStep);
-			setMaxStepCompleted(profile.onboarding_step ?? 1);
 			setHydrated();
 		}
 
@@ -104,6 +105,8 @@ export default function OnboardingLayout({
 	}, []);
 
 	const hydrated = useOnboardingStore((s) => s.hydrated);
+
+	console.log(hydrated);
 
 	if (!hydrated) {
 		return (
