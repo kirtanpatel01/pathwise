@@ -7,12 +7,12 @@ import { SkillRadar } from "./skill-radar";
 import { RoadmapPhase } from "@/types/roadmap";
 
 export default async function RoadmapPage() {
-	const { roadmap, readiness, radar, roleName } = await getRoadmapAction();
-
+	const { roadmap, readiness, radar, roleName, isRoleReady } =
+		await getRoadmapAction();
 
 	return (
-		<div className="mx-auto max-w-5xl space-y-8 px-6 py-8">
-			<RoadmapHeader roleName={roleName} />
+		<div className="min-h-screen mx-auto max-w-5xl space-y-8 px-6 py-8">
+			<RoadmapHeader roleName={roleName} isRoleReady={isRoleReady} />
 
 			<ReadinessOverview value={readiness} />
 			<SkillRadar data={radar} />
