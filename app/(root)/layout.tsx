@@ -21,7 +21,7 @@ function layout({ children }: { children: React.ReactNode }) {
 					</Link>
 					<SidebarTrigger />
 				</header>
-				<main className="mt-12 max-w-6xl mx-auto">{children}</main>
+				<main className="mt-12 max-w-7xl w-full mx-auto">{children}</main>
 			</SidebarInset>
 		</SidebarProvider>
 	);
