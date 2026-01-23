@@ -5,7 +5,7 @@ export function DashboardHeader({ name }: { name: string }) {
 				Welcome back, {name}
 			</h1>
 			<p className="text-muted-foreground">
-				Here’s your current learning progress and roadmap.
+				Here&apos;s your current learning progress and roadmap.
 			</p>
 		</div>
 	);
