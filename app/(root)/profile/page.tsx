@@ -1,4 +1,3 @@
-import React from 'react';
 import { 
   Card, 
   CardContent, 
@@ -23,14 +22,7 @@ import {
   UserCircle 
 } from "lucide-react";
 
-/**
- * Profile Page Component
- * Uses official Shadcn UI components with a modern dashboard layout.
- */
 export default function Page() {
-  // -----------------------------
-  // Data
-  // -----------------------------
   const profile = {
     full_name: "Kirtan Patel",
     institute: "Parul Institute of Technology",
@@ -55,13 +47,11 @@ export default function Page() {
   return (
     <div className="p-6 min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 pb-20">
       
-      {/* Cover Section */}
       <div className="h-48 md:h-64 bg-linear-to-r from-indigo-600 via-violet-600 to-fuchsia-600 relative">
         <div className="absolute inset-0 bg-black/5" />
       </div>
 
-      {/* Main Content Container */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 -mt-20 relative z-10">
+      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 -mt-20 relative z-10">
         
         {/* Profile Header Section */}
         <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-8">
@@ -115,7 +105,7 @@ export default function Page() {
                   {profile.bio}
                 </p>
                 
-                <Separator className="my-8" />
+                <Separator className="my-16" />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                   <div className="flex items-center gap-4 group">

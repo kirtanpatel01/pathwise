@@ -22,10 +22,10 @@ export function RoleTrendCard({ role }: { role: MarketRole }) {
         <div className="space-y-2">
           <div className="flex justify-between text-xs font-semibold uppercase tracking-wider">
             <span className="text-muted-foreground">Market Demand</span>
-            <span className="text-primary">{role.demandPercentage}%</span>
+            <span className="text-primary">{role.demand_percentage}%</span>
           </div>
           <Progress 
-            value={role.demandPercentage} 
+            value={role.demand_percentage} 
             className="h-1.5 transition-all" 
           />
         </div>
