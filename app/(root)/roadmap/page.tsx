@@ -11,7 +11,7 @@ export default async function RoadmapPage() {
 		await getRoadmapAction();
 
 	return (
-		<div className="min-h-screen mx-auto max-w-5xl space-y-8 px-6 py-8">
+		<div className="min-h-screen space-y-8 p-6">
 			<RoadmapHeader roleName={roleName} isRoleReady={isRoleReady} />
 
 			<ReadinessOverview value={readiness} />

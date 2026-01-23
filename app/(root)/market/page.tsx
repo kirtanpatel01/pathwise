@@ -5,7 +5,7 @@ import { marketTrendsMock } from "@/lib/data/market";
 
 export default function MarketPage() {
   return (
-    <div className="mx-auto max-w-7xl space-y-8 p-6 lg:p-10">
+    <div className="space-y-8 p-6 lg:p-10">
       <MarketHeader />
       
       <section>

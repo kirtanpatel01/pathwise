@@ -43,7 +43,7 @@ export function MarketStats({ roles }: { roles: MarketRole[] }) {
 			{stats.map((stat) => (
 				<Card
 					key={stat.title}
-					className="overflow-hidden border-none shadow-sm bg-card/50 backdrop-blur-sm"
+					className="overflow-hidden border-none shadow-sm bg-accent backdrop-blur-sm"
 				>
 					<CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
 						<CardTitle className="text-sm font-medium">

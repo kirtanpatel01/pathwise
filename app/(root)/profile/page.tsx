@@ -53,10 +53,10 @@ export default function Page() {
   const onboardingProgress = Math.round((profile.onboarding_step / 5) * 100);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 pb-20">
+    <div className="max-w-3xl mx-auto min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 pb-20">
       
       {/* Cover Section */}
-      <div className="h-48 md:h-64 bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 relative">
+      <div className="h-48 md:h-64 bg-linear-to-r from-indigo-600 via-violet-600 to-fuchsia-600 relative">
         <div className="absolute inset-0 bg-black/5" />
       </div>
 

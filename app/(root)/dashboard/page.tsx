@@ -33,7 +33,7 @@ export default async function page() {
 	}
 
 	return (
-		<div className="space-y-8 max-w-6xl p-6">
+		<div className="space-y-6 p-6">
 			<DashboardHeader name={dashboardMock.user.name} />
 
 			<div className="grid gap-6 md:grid-cols-2">
