@@ -10,7 +10,7 @@ export default function RoadmapHeader({
   isRoleReady,
 }: RoadmapHeaderProps) {
   return (
-    <div className="space-y-1">
+    <div className="space-y-1 mt-16">
       <div className="flex items-center gap-2">
         <h1 className="text-2xl font-semibold">
           {isRoleReady

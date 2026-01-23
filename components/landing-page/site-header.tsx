@@ -25,7 +25,6 @@ export interface UserClaims {
 export function SiteHeader({ user }: { user?: UserClaims | null }) {
   const [isScrolled, setIsScrolled] = useState(false);
   
-  // Scroll progress bar logic
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,

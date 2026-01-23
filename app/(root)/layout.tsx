@@ -12,7 +12,7 @@ function layout({ children }: { children: React.ReactNode }) {
 		<SidebarProvider>
 			<AppSidebar />
 			<SidebarInset>
-				<header className="fixed bg-background w-full flex items-center justify-between sm:justify-start p-2 border-b">
+				<header className="fixed bg-background w-full flex items-center justify-between sm:justify-start p-2 border-b z-10">
 					<Link href="/dashboard" className="flex sm:hidden items-center gap-2 ">
 						<div className="flex h-6 min-w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
 							P
@@ -21,7 +21,7 @@ function layout({ children }: { children: React.ReactNode }) {
 					</Link>
 					<SidebarTrigger />
 				</header>
-				<main className="mt-12 sm:mt-0">{children}</main>
+				<main className="mt-12">{children}</main>
 			</SidebarInset>
 		</SidebarProvider>
 	);
