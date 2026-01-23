@@ -22,8 +22,9 @@ import { signOut } from "@/app/auth/actions";
 
 const navItems = [
 	{ title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+	{ title: "Market", href: "/market", icon: Briefcase },
 	{ title: "Roadmap", href: "/roadmap", icon: Map },
-	{ title: "Jobs", href: "/jobs", icon: Briefcase },
+	// { title: "Jobs", href: "/jobs", icon: Briefcase },
 	{ title: "Profile", href: "/profile", icon: User },
 ];
 
