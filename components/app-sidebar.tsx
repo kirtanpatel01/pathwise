@@ -37,7 +37,7 @@ export function AppSidebar() {
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton asChild>
-							<Link href="/dashboard">
+							<Link href="/">
 								<div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
 									P
 								</div>

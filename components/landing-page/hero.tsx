@@ -3,6 +3,7 @@
 import { Button } from "../ui/button";
 import { ArrowUpRight, CheckCircle2, Sparkles, TrendingUp } from "lucide-react";
 import { motion, easeInOut } from "motion/react";
+import Link from "next/link";
 
 function Hero() {
   const containerVariants = {
@@ -55,11 +56,13 @@ function Hero() {
             </motion.div>
 
             <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-4">
-              <Button size="lg" className="h-12 px-8 text-base shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95">
+              <Link href="/onboarding/profile">
+                <Button size="lg" className="h-12 px-8 text-base shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95">
                 Build my roadmap
                 <ArrowUpRight className="ml-2 h-5 w-5" />
               </Button>
 
+              </Link>
               <Button
                 variant="ghost"
                 size="lg"

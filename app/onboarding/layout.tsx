@@ -42,16 +42,15 @@ export default function OnboardingLayout({
 				return;
 			}
 
-			// roles
 			if (!rolesLoaded) {
 				const { data: roles } = await supabase
-					.from("roles_master")
-					.select("id, role_name");
+					.from("market_roles")
+					.select("id, title")
+					.order("demand_percentage", { ascending: false });
 
 				setRoles(roles ?? []);
 			}
 
-			// skills
 			if (!skillsLoaded) {
 				const { data: skills } = await supabase
 					.from("skills_master")
@@ -60,7 +59,6 @@ export default function OnboardingLayout({
 				setSkillsMaster(skills ?? []);
 			}
 
-			// user skills (optional)
 			const { data: userSkills } = await supabase
 				.from("user_skills")
 				.select("skill_id, proficiency, used_in_project")
@@ -68,7 +66,6 @@ export default function OnboardingLayout({
 
 			setUserSkills(userSkills ?? []);
 
-			// target role (optional)
 			const { data: targetRole } = await supabase
 				.from("user_target_role")
 				.select("role_id")
@@ -77,7 +74,6 @@ export default function OnboardingLayout({
 
 			setTargetRole(targetRole?.role_id);
 
-			// profile (OPTIONAL)
 			const { data: profile } = await supabase
 				.from("profiles")
 				.select("*")
@@ -96,7 +92,6 @@ export default function OnboardingLayout({
 				setMaxStepCompleted(profile.onboarding_step ?? 1);
 			}
 
-			// 👇 ALWAYS CALL THIS
 			setStep(currentStep);
 			setHydrated();
 		}
@@ -105,8 +100,6 @@ export default function OnboardingLayout({
 	}, []);
 
 	const hydrated = useOnboardingStore((s) => s.hydrated);
-
-	console.log(hydrated);
 
 	if (!hydrated) {
 		return (

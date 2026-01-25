@@ -1,5 +1,5 @@
-import { Role } from "@/lib/validations/role.schema";
-import { Skill } from "@/lib/validations/skills.schema";
+import { Role } from "@/app/onboarding/role/types";
+import { Skill } from "@/app/onboarding/skills/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
