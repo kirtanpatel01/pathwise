@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { AlertCircle, ArrowRight } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { AnimatePresence } from "motion/react";
+import useSWR from "swr";
 
 import { SkillCard } from "./_components/skill-card";
 import { AddSkillDialog } from "./_components/add-skill-dialog";
@@ -43,70 +43,67 @@ const MOCK_ROLES = [
 ];
 
 export default function Step2SkillsPage() {
-  const [status, setStatus] = useState<string>("idle");
-  const [userSkills, setUserSkills] = useState<UserSkill[]>([]);
-  const [availableSkills, setAvailableSkills] = useState<DbSkill[]>([]);
-  const [role, setRole] = useState<string>("");
   const router = useRouter();
 
-  const loadData = useCallback(async () => {
-    try {
-      const [skillsData, profileData] = await Promise.all([
-        getAvailableSkills(),
-        getUserProfileAndSkills()
-      ]);
+  // Immutable fetch for available skills (only fetches once)
+  const { data: availableSkills = [] } = useSWR<DbSkill[]>(
+    "availableSkills", 
+    getAvailableSkills,
+    { revalidateOnFocus: false }
+  );
 
-      setAvailableSkills(skillsData);
-      setStatus(profileData.status);
-      if (profileData.role) setRole(profileData.role);
-      setUserSkills(profileData.skills);
-    } catch (error) {
-      console.error("Failed to load data", error);
-    }
-  }, []);
-
-  const refreshProfile = useCallback(async () => {
-    try {
-      const data = await getUserProfileAndSkills();
-      setStatus(data.status);
-      if (data.role) setRole(data.role);
-      setUserSkills(data.skills);
-    } catch (error) {
-      console.error("Failed to refresh profile", error);
-    }
-  }, []);
-
-  useEffect(() => {
-    loadData();
-
-    const interval = setInterval(() => {
-      if (status === "processing" || status === "idle") {
-        refreshProfile();
+  // Poll for profile status and skills until completed
+  const { data: profileData, mutate } = useSWR(
+    "userProfileAndSkills",
+    getUserProfileAndSkills,
+    {
+      refreshInterval: (data) => {
+        return (data?.status === "processing" || data?.status === "idle") ? 2000 : 0;
       }
-    }, 2000);
+    }
+  );
 
-    return () => clearInterval(interval);
-  }, [loadData, refreshProfile, status]);
+  const status = profileData?.status || "idle";
+  const userSkills = profileData?.skills || [];
+  const role = profileData?.role || "";
 
   const handleRoleChange = async (newRole: string) => {
-    setRole(newRole); // Optimistic update
+    // Optimistic update
+    mutate(
+      { ...profileData!, role: newRole }, 
+      { revalidate: false }
+    );
+    
     try {
       await updateUserRole(newRole);
       toast.success("Role updated");
+      mutate(); // Revalidate to be sure
     } catch (error) {
       toast.error("Failed to update role");
+      mutate(); // Revert on error
     }
   };
 
   const handleDelete = async (skillId: string) => {
-    const previousSkills = [...userSkills];
-    setUserSkills(userSkills.filter(s => s.skill_id !== skillId)); // Optimistic update
+    // Optimistic update
+    const previousSkills = userSkills;
+    const newSkills = userSkills.filter(s => s.skill_id !== skillId);
+    
+    mutate(
+      { ...profileData!, skills: newSkills },
+      { revalidate: false }
+    );
 
     try {
       await deleteUserSkill(skillId);
       toast.success("Skill removed");
+      mutate();
     } catch (error) {
-      setUserSkills(previousSkills); // Revert
+      // Revert
+      mutate(
+        { ...profileData!, skills: previousSkills },
+        { revalidate: false }
+      );
       toast.error("Failed to delete skill");
     }
   };
@@ -117,25 +114,32 @@ export default function Step2SkillsPage() {
       return;
     }
 
-    const newSkill: UserSkill = {
-      skill_id: skill.id, // This is technically inaccurate for the optimistic update locally (as we don't know the new row ID yet), but good enough for UI display if we just need unique keys or display data. 
-      // Actually, for delete to work immediately after add, we need the real ID. 
-      // Server action revalidatePath might not trigger a full re-fetch here immediately because we are blocking client-side with optimistic state? 
-      // Ideally addUserSkill should return the new object.
-      // But for now, let's just stick to the pattern. Revalidation happens on server, next poll or refresh will fix it.
+    // Create optimistic skill object
+    const optimisticSkill: UserSkill = {
+      skill_id: skill.id, 
       proficiency: "intermediate",
       evidence: "Manual entry",
       skills: skill
     };
 
-    setUserSkills([...userSkills, newSkill]);
+    const previousSkills = userSkills;
+    const newSkills = [...userSkills, optimisticSkill];
+
+    mutate(
+      { ...profileData!, skills: newSkills },
+      { revalidate: false }
+    );
 
     try {
       await addUserSkill(skill);
       toast.success("Skill added");
-      refreshProfile(); // Refresh to get the real IDs
+      mutate(); // Revalidate to get real IDs/state
     } catch (error) {
-      setUserSkills(userSkills); // Revert
+      // Revert
+      mutate(
+        { ...profileData!, skills: previousSkills },
+        { revalidate: false }
+      );
       toast.error("Failed to add skill");
     }
   };

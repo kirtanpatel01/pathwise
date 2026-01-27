@@ -52,7 +52,7 @@ export function AddSkillDialog({ availableSkills, userSkillIds, onAddSkill }: Ad
           </DialogTitle>
         </DialogHeader>
         <Command>
-          <CommandInput placeholder="Search explicitly (e.g. React, Docker)..." />
+          <CommandInput placeholder="Search explicitly (e.g. React, Docker)…" />
           <CommandList>
             <CommandEmpty>No skill found.</CommandEmpty>
             <CommandGroup heading="Suggestions">

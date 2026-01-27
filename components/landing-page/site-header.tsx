@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Menu, Zap } from "lucide-react";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring } from "motion/react";
 
 import {
   Sheet,
@@ -34,7 +34,7 @@ export function SiteHeader({ user }: { user?: UserClaims | null }) {
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 

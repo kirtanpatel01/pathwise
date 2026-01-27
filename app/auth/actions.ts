@@ -1,7 +1,6 @@
-"use server";
-
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export async function signupUser(formData: {
 	name: string;
@@ -52,6 +51,8 @@ export async function loginUser({
 		return { success: false };
 	}
 
+  revalidatePath("/", "layout"); // Revalidate layout to update header state
+
 	const userId = data.user.id;
 
 	const { data: profile } = await supabase
@@ -76,6 +77,9 @@ export async function loginUser({
 export async function signOut() {
 	const supabase = await createClient();
 	const { error } = await supabase.auth.signOut();
+  
+  revalidatePath("/", "layout"); // Revalidate layout to update header state
+
 	if (!error) {
 		redirect("/auth/login");
 	}

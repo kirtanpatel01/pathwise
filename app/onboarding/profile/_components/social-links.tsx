@@ -81,6 +81,7 @@ export function SocialLinks({ control }: SocialLinksProps) {
                 </InputGroupAddon>
                 <InputGroupInput
                   {...field}
+                  type="url"
                   placeholder="https://your-portfolio.com"
                   aria-invalid={fieldState.invalid}
                 />

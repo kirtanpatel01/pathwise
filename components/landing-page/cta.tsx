@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Button } from "../ui/button";
 import { ArrowRight, Star, Zap } from "lucide-react";
 
@@ -63,9 +63,9 @@ function FinalCTA() {
 							transition={{ delay: 0.1 }}
 							className="text-4xl font-bold tracking-tight text-white sm:text-6xl"
 						>
-							Stop scrolling. <br />
+							Stop Scrolling. <br />
 							<span className="text-primary italic">
-								Start building.
+								Start Building.
 							</span>
 						</motion.h2>
 
@@ -92,7 +92,7 @@ function FinalCTA() {
 								size="lg"
 								className="h-14 px-10 text-lg font-bold bg-primary text-primary-foreground shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)] transition-all hover:scale-105 active:scale-95 hover:shadow-[0_0_30px_rgba(var(--primary-rgb),0.5)]"
 							>
-								Build my roadmap
+								Build My Roadmap
 								<ArrowRight className="ml-2 h-5 w-5" />
 							</Button>
 						</motion.div>
@@ -106,10 +106,10 @@ function FinalCTA() {
 						>
 							<div className="flex items-center gap-1.5">
 								<Star className="h-4 w-4 fill-primary text-primary" />
-								<span>No credit card required</span>
+								<span>No Credit Card Required</span>
 							</div>
 							<div className="h-1 w-1 rounded-full bg-slate-700" />
-							<span>30-second setup</span>
+							<span>30-Second Setup</span>
 						</motion.div>
 					</div>
 				</div>

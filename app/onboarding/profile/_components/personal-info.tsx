@@ -49,7 +49,7 @@ export function PersonalInfo({ control }: PersonalInfoProps) {
               <InputGroupInput
                 {...field}
                 id={field.name}
-                placeholder="John Doe"
+                placeholder="e.g. John Doe"
                 aria-invalid={fieldState.invalid}
               />
             </InputGroup>
@@ -72,7 +72,7 @@ export function PersonalInfo({ control }: PersonalInfoProps) {
               <InputGroupInput
                 {...field}
                 id={field.name}
-                placeholder="Parul University"
+                placeholder="e.g. Parul University"
                 aria-invalid={fieldState.invalid}
               />
             </InputGroup>

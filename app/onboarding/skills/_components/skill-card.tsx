@@ -38,6 +38,7 @@ export function SkillCard({ skill, onDelete }: SkillCardProps) {
                 size="icon"
                 className="h-6 w-6 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
                 onClick={() => onDelete(skill.skill_id)}
+                aria-label="Delete skill"
               >
                 <Trash2 className="size-3.5" />
               </Button>
@@ -52,7 +53,7 @@ export function SkillCard({ skill, onDelete }: SkillCardProps) {
             className="text-xs text-muted-foreground italic truncate"
             title={skill.evidence}
           >
-            "{skill.evidence}"
+            “{skill.evidence}”
           </p>
         </CardContent>
       </Card>

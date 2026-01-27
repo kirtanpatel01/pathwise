@@ -1,7 +1,7 @@
 "use client";
 
 import { XCircle, AlertCircle, HelpCircle, ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 function Problem() {
   const problems = [

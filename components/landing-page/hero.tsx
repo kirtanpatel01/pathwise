@@ -40,9 +40,9 @@ function Hero() {
 
             <motion.div variants={itemVariants} className="space-y-4">
               <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl">
-                From skill <span className="text-primary italic">confusion</span> <br />
-                to career <span className="relative">
-                  clarity
+                From Skill <span className="text-primary italic">Confusion</span> <br />
+                to Career <span className="relative">
+                  Clarity
                   <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 138 9" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 7C35.6667 3 103.4 -1.4 137 7" stroke="hsl(var(--primary))" strokeWidth="3" strokeLinecap="round"/>
                   </svg>
@@ -58,7 +58,7 @@ function Hero() {
             <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-4">
               <Link href="/onboarding/profile">
                 <Button size="lg" className="h-12 px-8 text-base shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95">
-                Build my roadmap
+                Build My Roadmap
                 <ArrowUpRight className="ml-2 h-5 w-5" />
               </Button>
 
@@ -69,7 +69,7 @@ function Hero() {
                 className="h-12 px-8 text-base"
                 onClick={() => document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" })}
               >
-                See how it works
+                See How It Works
               </Button>
             </motion.div>
           </div>

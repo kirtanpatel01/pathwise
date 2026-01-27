@@ -99,7 +99,7 @@ export function LoginForm(props: React.ComponentProps<typeof Card>) {
 										{...field}
 										id="email"
 										type="email"
-										placeholder="john.doe@example.com"
+										placeholder="e.g. name@example.com"
 										aria-invalid={fieldState.invalid}
 										disabled={isSubmitting}
 									/>
@@ -155,7 +155,7 @@ export function LoginForm(props: React.ComponentProps<typeof Card>) {
 					className="w-full"
 					disabled={isSubmitting}
 				>
-					{isSubmitting ? "Logging in..." : "Login"}
+					{isSubmitting ? "Logging in…" : "Log In"}
 				</Button>
 
 				<FieldDescription className="px-6 text-center">

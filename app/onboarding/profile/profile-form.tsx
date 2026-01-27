@@ -90,7 +90,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
 					className="w-full h-11 text-base"
 					disabled={isSubmitting}
 				>
-					{isSubmitting ? "Saving..." : "Continue"}
+					{isSubmitting ? "Saving…" : "Save & Continue"}
 				</Button>
 			</CardFooter>
 		</Card>

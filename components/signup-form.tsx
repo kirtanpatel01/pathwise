@@ -106,7 +106,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
 										{...field}
 										id="name"
 										type="text"
-										placeholder="John Doe"
+										placeholder="e.g. John Doe"
 										aria-invalid={fieldState.invalid}
 										disabled={isSubmitting}
 									/>
@@ -130,7 +130,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
 										{...field}
 										id="email"
 										type="email"
-										placeholder="john.doe@example.com"
+										placeholder="e.g. name@example.com"
 										aria-invalid={fieldState.invalid}
 										disabled={isSubmitting}
 									/>
@@ -210,7 +210,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
 						className="flex-1"
 						disabled={isSubmitting}
 					>
-						Create Account
+						{isSubmitting ? "Creating Account…" : "Create Account"}
 					</Button>
 				</Field>
 				<FieldDescription className="px-6 text-center">
