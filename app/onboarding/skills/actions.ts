@@ -97,3 +97,19 @@ export async function addUserSkill(skill: DbSkill) {
   if (error) throw new Error(error.message);
   revalidatePath("/onboarding/skills");
 }
+
+export async function updateUserSkill(skillId: string, proficiency: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) throw new Error("Unauthorized");
+
+  const { error } = await supabase
+    .from("user_skills")
+    .update({ proficiency })
+    .eq("user_id", user.id)
+    .eq("skill_id", skillId);
+
+  if (error) throw new Error(error.message);
+  revalidatePath("/onboarding/skills");
+}

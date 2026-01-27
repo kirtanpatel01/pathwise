@@ -26,7 +26,8 @@ import {
   getUserProfileAndSkills, 
   updateUserRole, 
   deleteUserSkill, 
-  addUserSkill 
+  addUserSkill,
+  updateUserSkill
 } from "./actions";
 
 const MOCK_ROLES = [
@@ -144,6 +145,33 @@ export default function Step2SkillsPage() {
     }
   };
 
+  const handleUpdateSkill = async (skillId: string, proficiency: string) => {
+    // Optimistic update
+    const previousSkills = userSkills;
+    const newSkills = userSkills.map(s => 
+      s.skill_id === skillId ? { ...s, proficiency: proficiency as any } : s
+    );
+
+    mutate(
+      { ...profileData!, skills: newSkills },
+      { revalidate: false }
+    );
+
+    try {
+      await updateUserSkill(skillId, proficiency);
+      toast.success("Proficiency updated");
+      mutate();
+    } catch (error) {
+      // Revert
+      mutate(
+        { ...profileData!, skills: previousSkills },
+        { revalidate: false }
+      );
+      console.log(error);
+      toast.error("Failed to update proficiency");
+    }
+  };
+
   if (status === "processing" || status === "idle") {
     return <SkillsLoader />;
   }
@@ -185,7 +213,11 @@ export default function Step2SkillsPage() {
                 <SelectTrigger className="h-9">
                     <SelectValue placeholder="Select a role" />
                 </SelectTrigger>
-                <SelectContent>
+                  <SelectContent>
+                    {/* Ensure the current role is an option even if not in the mock list */}
+                    {role && !MOCK_ROLES.includes(role) && (
+                      <SelectItem value={role}>{role}</SelectItem>
+                    )}
                     {MOCK_ROLES.map((r) => (
                         <SelectItem key={r} value={r}>{r}</SelectItem>
                     ))}
@@ -217,6 +249,7 @@ export default function Step2SkillsPage() {
               key={item.skill_id}
               skill={item}
               onDelete={handleDelete}
+              onUpdate={handleUpdateSkill}
             />
           ))}
         </AnimatePresence>

@@ -1,8 +1,14 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Trash2 } from "lucide-react";
+import { Trash2, ChevronDown } from "lucide-react";
 import { motion } from "motion/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface SkillCardProps {
   skill: {
@@ -15,9 +21,16 @@ interface SkillCardProps {
     };
   };
   onDelete: (id: string) => void;
+  onUpdate: (id: string, proficiency: string) => void;
 }
 
-export function SkillCard({ skill, onDelete }: SkillCardProps) {
+export function SkillCard({ skill, onDelete, onUpdate }: SkillCardProps) {
+  const proficiencyColors = {
+    beginner: "outline",
+    intermediate: "secondary",
+    advanced: "default",
+  } as const;
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -30,9 +43,28 @@ export function SkillCard({ skill, onDelete }: SkillCardProps) {
           <div className="flex justify-between items-start">
             <CardTitle className="capitalize">{skill.skills.name}</CardTitle>
             <div className="flex items-center gap-2">
-              <Badge variant={skill.proficiency === "advanced" ? "default" : skill.proficiency === "intermediate" ? "secondary" : "outline"}>
-                {skill.proficiency}
-              </Badge>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="cursor-pointer hover:opacity-80 transition-opacity">
+                    <Badge variant={proficiencyColors[skill.proficiency]} className="flex items-center gap-1 pr-1.5">
+                      {skill.proficiency}
+                      <ChevronDown className="size-3 opacity-50" />
+                    </Badge>
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => onUpdate(skill.skill_id, "beginner")}>
+                    Beginner
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onUpdate(skill.skill_id, "intermediate")}>
+                    Intermediate
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onUpdate(skill.skill_id, "advanced")}>
+                    Advanced
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
               <Button
                 variant="ghost"
                 size="icon"
