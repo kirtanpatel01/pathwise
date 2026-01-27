@@ -8,7 +8,7 @@ export default function OnboardingLayout({
 	return (
 		<div className="bg-background">
 			<OnboardingHeader />
-			<div className="min-h-screen flex justify-center items-center pt-12">
+			<div className="min-h-screen mt-12 flex justify-center items-center">
 				{children}
 			</div>
 		</div>

@@ -1,0 +1,24 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+import { Loader2, CheckCircle2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+
+// ... Types for Skill, UserSkill ...
+
+export default function Step2SkillsPage() {
+  const [status, setStatus] = useState("idle");
+  const [skills, setSkills] = useState([]);
+  // ...
+
+  // Polling logic using supabase client
+  // ...
+  
+  if (status === 'processing') {
+     return <ScanningUI />
+  }
+  
+  return <SkillsList skills={skills} />
+}

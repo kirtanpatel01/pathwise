@@ -34,7 +34,7 @@ export default async function Step1ProfilePage() {
 		: undefined;
 
 	return (
-		<div className="max-w-5xl w-full mx-auto sm:p-6">
+		<div className="max-w-5xl w-full mx-auto p-0 sm:p-6">
 			<ProfileForm initialData={initialData} />
 		</div>
 	);

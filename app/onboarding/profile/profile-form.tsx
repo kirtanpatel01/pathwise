@@ -17,8 +17,8 @@ import {
 	CardContent,
 	CardFooter,
 } from "@/components/ui/card";
-import { PersonalInfo } from "./components/personal-info";
-import { SocialLinks } from "./components/social-links";
+import { PersonalInfo } from "./_components/personal-info";
+import { SocialLinks } from "./_components/social-links";
 
 interface ProfileFormProps {
 	initialData?: Partial<ProfileFormData>;

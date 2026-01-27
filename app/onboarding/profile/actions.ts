@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { ProfileFormData } from "./types";
 import { revalidatePath } from "next/cache";
+import { inngest } from "@/lib/inngest/client";
 
 export async function updateProfile(data: ProfileFormData) {
   const supabase = await createClient();
@@ -31,12 +32,26 @@ export async function updateProfile(data: ProfileFormData) {
 		},
 	);
 
-  if (error) {
-    console.error("Profile update error:", error);
+	if (error) {
+    console.error("[updateProfile] Profile update error:", error);
     throw new Error("Failed to save profile information");
+  }
+
+  // Trigger GitHub analysis background job
+  if (github) {
+    console.log("[updateProfile] Triggering Inngest event", { userId: user.id, github });
+    await inngest.send({
+      name: "user.onboarding.started",
+      data: {
+        userId: user.id,
+        githubUsername: github,
+      },
+    });
+    console.log("[updateProfile] Inngest event sent");
   }
 
 	revalidatePath("/onboarding/profile");
 
+  console.log("[updateProfile] Completed successfully");
   return { success: true };
 }
