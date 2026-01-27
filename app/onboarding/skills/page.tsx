@@ -29,6 +29,7 @@ import {
   addUserSkill,
   updateUserSkill
 } from "./actions";
+import { Separator } from "@/components/ui/separator";
 
 const MOCK_ROLES = [
   "Software Engineer",
@@ -197,11 +198,11 @@ export default function Step2SkillsPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto w-full space-y-8 p-6 lg:p-10 animate-in fade-in duration-500">
-      <div className="flex flex-col sm:flex-row justify-between items-start gap-4 border-b border-border/40 pb-6">
+    <div className="max-w-5xl mx-auto w-full p-2 sm:p-6 lg:p-10 animate-in fade-in duration-500">
+      <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:gap-4">
         <div className="space-y-4 md:space-y-1">
           <div>
-              <h1 className="text-3xl font-bold tracking-tight">Verified Skills</h1>
+              <h1 className="text-xl sm:text-3xl font-bold tracking-tight">Verified Skills</h1>
               <p className="text-muted-foreground text-sm max-w-lg leading-relaxed">
                 We found <span className="text-primary font-medium">{userSkills.length} skills</span> based on your code.
               </p>
@@ -242,7 +243,9 @@ export default function Step2SkillsPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-20">
+      <Separator className="my-4 sm:my-6" /> 
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4 pb-20">
         <AnimatePresence mode="popLayout">
           {userSkills.map((item) => (
             <SkillCard

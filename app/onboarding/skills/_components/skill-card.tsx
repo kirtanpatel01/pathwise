@@ -43,6 +43,16 @@ export function SkillCard({ skill, onDelete, onUpdate }: SkillCardProps) {
           <div className="flex justify-between items-start">
             <CardTitle className="capitalize">{skill.skills.name}</CardTitle>
             <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-6 w-6 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                onClick={() => onDelete(skill.skill_id)}
+                aria-label="Delete skill"
+              >
+                <Trash2 className="size-3.5" />
+              </Button>
+              
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <div className="cursor-pointer hover:opacity-80 transition-opacity">
@@ -64,16 +74,6 @@ export function SkillCard({ skill, onDelete, onUpdate }: SkillCardProps) {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-6 w-6 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={() => onDelete(skill.skill_id)}
-                aria-label="Delete skill"
-              >
-                <Trash2 className="size-3.5" />
-              </Button>
             </div>
           </div>
           <CardDescription className="font-mono text-xs">
