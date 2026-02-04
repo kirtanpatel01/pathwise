@@ -1,4 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar";
+import { SiteHeader } from "@/components/site-header";
 import {
 	SidebarInset,
 	SidebarProvider,
@@ -9,19 +10,17 @@ import React from "react";
 
 function layout({ children }: { children: React.ReactNode }) {
 	return (
-		<SidebarProvider>
+		<SidebarProvider
+			style={
+				{
+					"--sidebar-width": "calc(var(--spacing) * 44)",
+				} as React.CSSProperties
+			}
+		>
 			<AppSidebar />
 			<SidebarInset>
-				<header className="fixed bg-background w-full flex items-center justify-between sm:justify-start p-2 border-b z-100">
-					<Link href="/dashboard" className="flex sm:hidden items-center gap-2 ">
-						<div className="flex h-6 min-w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-							P
-						</div>
-						<span className="font-semibold">Pathwise</span>
-					</Link>
-					<SidebarTrigger />
-				</header>
-				<main className="mt-12 max-w-7xl w-full mx-auto">{children}</main>
+				<SiteHeader />
+				<main>{children}</main>
 			</SidebarInset>
 		</SidebarProvider>
 	);

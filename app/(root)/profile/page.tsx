@@ -1,4 +1,17 @@
+import ProfileForm from "./profile-form"
+import { getProfile } from "./action";
+import { toast } from "sonner";
 
-export default function ProfilePage() {
-  return <h1>Profile</h1>;
+export default async function ProfilePage() {
+  const { success, profile, error } = await getProfile();
+
+  if(!success && error) {
+    toast.error(error)
+  }
+
+  return (
+    <div className="p-6">
+      <ProfileForm profile={profile} />
+    </div>
+  );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { Control } from "react-hook-form";
-import { ProfileFormData } from "../schema";
+import { OnboardingFormData } from "../types";
 import {
   Field,
   FieldLabel,
@@ -14,9 +14,10 @@ import {
 } from "@/components/ui/input-group";
 import { Controller } from "react-hook-form";
 import { Github, Linkedin, Globe } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 interface SocialLinksProps {
-  control: Control<ProfileFormData>;
+  control: Control<OnboardingFormData>;
 }
 
 export function SocialLinks({ control }: SocialLinksProps) {
@@ -86,6 +87,22 @@ export function SocialLinks({ control }: SocialLinksProps) {
                   aria-invalid={fieldState.invalid}
                 />
               </InputGroup>
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        <Controller
+          name="target_role"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel>Target Role</FieldLabel>
+                <Input
+                  {...field}
+                  placeholder="e.g. Software Engineer"
+                  aria-invalid={fieldState.invalid}
+                />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}

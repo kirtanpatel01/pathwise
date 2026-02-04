@@ -92,7 +92,7 @@ export function SiteHeader({ user }: { user?: UserClaims | null }) {
 
           {user ? (
             <Link href="/dashboard" className="hidden md:block">
-              <Button className="rounded-full px-6 font-bold shadow-md hover:shadow-primary/20">
+              <Button className="rounded-full px-6 font-bold shadow-md hover:shadow-primary/20 cursor-pointer">
                 Dashboard
               </Button>
             </Link>

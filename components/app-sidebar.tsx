@@ -16,15 +16,13 @@ import {
 	SidebarMenuButton,
 } from "@/components/ui/sidebar";
 
-import { LayoutDashboard, Map, Briefcase, User, LogOut } from "lucide-react";
+import { LayoutDashboard, Map, User, LogOut, Zap } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
 import { signOut } from "@/app/auth/actions";
 
 const navItems = [
 	{ title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-	{ title: "Market", href: "/market", icon: Briefcase },
 	{ title: "Roadmap", href: "/roadmap", icon: Map },
-	// { title: "Jobs", href: "/jobs", icon: Briefcase },
 	{ title: "Profile", href: "/profile", icon: User },
 ];
 
@@ -32,16 +30,14 @@ export function AppSidebar() {
 	const pathname = usePathname();
 
 	return (
-		<Sidebar collapsible="icon">
+		<Sidebar collapsible="icon" variant="inset">
 			<SidebarHeader>
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton asChild>
-							<Link href="/">
-								<div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-									P
-								</div>
-								<span className="font-semibold">Pathwise</span>
+							<Link href="/" className="">
+								<Zap className="text-primary" />
+								<span className="font-semibold text-lg">Pathwise</span>
 							</Link>
 						</SidebarMenuButton>
 					</SidebarMenuItem>
@@ -82,7 +78,7 @@ export function AppSidebar() {
 				<SidebarGroupContent>
 					<SidebarMenu>
 						<SidebarMenuItem>
-							<SidebarMenuButton>
+							<SidebarMenuButton className="cursor-pointer">
 								<ModeToggle asChild />
 							</SidebarMenuButton>
 						</SidebarMenuItem>
@@ -90,7 +86,7 @@ export function AppSidebar() {
 						<SidebarMenuItem>
 							<SidebarMenuButton
 								onClick={async () => await signOut()}
-								className="text-destructive hover:text-destructive hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/10"
+								className="text-destructive hover:text-destructive hover:bg-destructive/10 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 cursor-pointer"
 							>
 								<LogOut />
 								<span>Logout</span>

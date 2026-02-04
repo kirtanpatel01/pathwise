@@ -5,6 +5,7 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { Spinner } from "./ui/spinner";
 
 type ModeToggleProps = {
 	className?: string;
@@ -19,15 +20,33 @@ export function ModeToggle({ className, asChild }: ModeToggleProps) {
 		setMounted(true);
 	}, []);
 
-	if (!mounted) {
-		return null;
-	}
-
 	const currentTheme = theme === "system" ? resolvedTheme : theme;
 
 	const toggleTheme = () => {
 		setTheme(currentTheme === "dark" ? "light" : "dark");
 	};
+
+	useEffect(() => {
+		if (!mounted) return;
+
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (
+				e.key.toLowerCase() === "d" &&
+				!["INPUT", "TEXTAREA"].includes((e.target as HTMLElement).tagName) &&
+				!(e.target as HTMLElement).isContentEditable
+			) {
+				e.preventDefault();
+				toggleTheme();
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+		return () => window.removeEventListener("keydown", handleKeyDown);
+	}, [mounted, currentTheme, toggleTheme]);
+
+	if (!mounted) {
+		return <Spinner />;
+	}
 
 	const isDark = currentTheme === "dark";
 
@@ -48,7 +67,6 @@ export function ModeToggle({ className, asChild }: ModeToggleProps) {
 		</>
 	);
 
-	/* ---------------- asChild: NOT a button ---------------- */
 	if (asChild) {
 		return (
 			<div
@@ -61,14 +79,13 @@ export function ModeToggle({ className, asChild }: ModeToggleProps) {
 						toggleTheme();
 					}
 				}}
-				className={cn("select-none flex items-center", className)}
+				className={cn("w-full select-none flex items-center", className)}
 			>
 				{Content}
 			</div>
 		);
 	}
 
-	/* ---------------- default: Button ---------------- */
 	return (
 		<Button
 			variant="ghost"

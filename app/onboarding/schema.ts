@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const currentYear = new Date().getFullYear();
 
-export const profileSchema = z.object({
+export const onboardingSchema = z.object({
 	full_name: z.string().min(2, "Name is too short"),
 
 	institute: z.string().min(2, "Institute is required"),
@@ -36,6 +36,6 @@ export const profileSchema = z.object({
 		.url("Enter a valid portfolio URL")
 		.optional()
 		.or(z.literal("")),
-});
 
-export type ProfileFormData = z.infer<typeof profileSchema>;
+	target_role: z.string().min(2, "Target role is required"),
+});

@@ -1,11 +1,10 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { ProfileFormData } from "./types";
+import { OnboardingFormData } from "./types";
 import { revalidatePath } from "next/cache";
-import { inngest } from "@/lib/inngest/client";
 
-export async function updateProfile(data: ProfileFormData) {
+export async function updateProfile(data: OnboardingFormData) {
   const supabase = await createClient();
 
   const {
@@ -25,7 +24,6 @@ export async function updateProfile(data: ProfileFormData) {
 			github: `https://github.com/${github}`,
 			linkedin: linkedin ? `https://linkedin.com/in/${linkedin}` : null,
 			portfolio: portfolio || null,
-			onboarding_step: 2,
 		},
 		{
 			onConflict: "user_id",
@@ -37,21 +35,6 @@ export async function updateProfile(data: ProfileFormData) {
     throw new Error("Failed to save profile information");
   }
 
-  // Trigger GitHub analysis background job
-  if (github) {
-    console.log("[updateProfile] Triggering Inngest event", { userId: user.id, github });
-    await inngest.send({
-      name: "user.onboarding.started",
-      data: {
-        userId: user.id,
-        githubUsername: github,
-      },
-    });
-    console.log("[updateProfile] Inngest event sent");
-  }
-
-	revalidatePath("/onboarding/profile");
-
-  console.log("[updateProfile] Completed successfully");
+	revalidatePath("/dashboard");
   return { success: true };
 }

@@ -5,7 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { toast } from "sonner";
-import { profileSchema, ProfileFormData } from "./schema";
+import { OnboardingFormData } from "./types";
+import { onboardingSchema } from "./schema";
 import { updateProfile } from "./actions";
 
 import { Button } from "@/components/ui/button";
@@ -21,15 +22,15 @@ import { PersonalInfo } from "./_components/personal-info";
 import { SocialLinks } from "./_components/social-links";
 
 interface ProfileFormProps {
-	initialData?: Partial<ProfileFormData>;
+	initialData?: Partial<OnboardingFormData>;
 }
 
 export function ProfileForm({ initialData }: ProfileFormProps) {
 	const router = useRouter();
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const form = useForm<ProfileFormData>({
-		resolver: zodResolver(profileSchema),
+	const form = useForm<OnboardingFormData>({
+		resolver: zodResolver(onboardingSchema),
 
 		defaultValues: {
 			full_name: initialData?.full_name || "",
@@ -40,16 +41,17 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
 			github: initialData?.github || "",
 			linkedin: initialData?.linkedin || "",
 			portfolio: initialData?.portfolio || "",
+			target_role: initialData?.target_role || "",
 		},
 	});
 
-	async function onSubmit(data: ProfileFormData) {
+	async function onSubmit(data: OnboardingFormData) {
 		setIsSubmitting(true);
 
 		try {
 			await updateProfile(data);
 			toast.success("Profile saved successfully.");
-			router.push("/onboarding/skills");
+			router.push("/dashboard");
 		} catch (error) {
 			toast.error("Failed to save profile information.");
 			console.error(error);
@@ -59,7 +61,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
 	}
 
 	return (
-		<Card>
+		<Card className="flex-1">
 			<CardHeader>
 				<CardTitle>Profile Details</CardTitle>
 

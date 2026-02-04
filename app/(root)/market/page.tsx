@@ -1,4 +1,3 @@
-
 export default function MarketPage() {
-  return <h1>Market</h1>;
+   return <h1>Explore Jobs</h1>;
 }

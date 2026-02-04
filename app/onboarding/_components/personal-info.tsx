@@ -1,7 +1,7 @@
 "use client";
 
 import { Control, useWatch } from "react-hook-form";
-import { ProfileFormData } from "../schema";
+import { OnboardingFormData } from "../types";
 import {
   Field,
   FieldLabel,
@@ -21,10 +21,10 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Controller } from "react-hook-form";
-import { User, Building2, MapPin, GraduationCap, Calendar } from "lucide-react";
+import { User, Building2, MapPin } from "lucide-react";
 
 interface PersonalInfoProps {
-  control: Control<ProfileFormData>;
+  control: Control<OnboardingFormData>;
 }
 
 export function PersonalInfo({ control }: PersonalInfoProps) {
@@ -32,6 +32,11 @@ export function PersonalInfo({ control }: PersonalInfoProps) {
 
   const currentYear = new Date().getFullYear();
   const graduationYears = Array.from({ length: 7 }, (_, i) => currentYear + i);
+  const statusLabels = {
+    student: "Student",
+    graduate: "Graduate",
+    professional: "Professional",
+  };
 
   return (
     <div className="space-y-4 w-full">
@@ -95,7 +100,7 @@ export function PersonalInfo({ control }: PersonalInfoProps) {
               <InputGroupInput
                 {...field}
                 id={field.name}
-                placeholder="India"
+                placeholder="${city}, ${state}, India"
                 aria-invalid={fieldState.invalid}
               />
             </InputGroup>
@@ -113,7 +118,9 @@ export function PersonalInfo({ control }: PersonalInfoProps) {
             <FieldLabel>Status</FieldLabel>
             <Select value={field.value} onValueChange={field.onChange}>
               <SelectTrigger aria-invalid={fieldState.invalid}>
-                <SelectValue placeholder="Select status" />
+                <SelectValue placeholder="Select status">
+                  {field.value ? statusLabels[field.value] : undefined}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="student">Student</SelectItem>
@@ -139,7 +146,9 @@ export function PersonalInfo({ control }: PersonalInfoProps) {
                 onValueChange={(value) => field.onChange(Number(value))}
               >
                 <SelectTrigger aria-invalid={fieldState.invalid}>
-                  <SelectValue placeholder="Select year" />
+                  <SelectValue placeholder="Select year">
+                    {field.value ? field.value : undefined}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {graduationYears.map((year) => (
