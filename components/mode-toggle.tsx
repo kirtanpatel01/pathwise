@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { Spinner } from "./ui/spinner";
+import { Skeleton } from "./ui/skeleton";
 
 type ModeToggleProps = {
 	className?: string;
@@ -45,7 +46,13 @@ export function ModeToggle({ className, asChild }: ModeToggleProps) {
 	}, [mounted, currentTheme, toggleTheme]);
 
 	if (!mounted) {
-		return <Spinner />;
+		return (
+			<div className="flex items-center gap-1">
+				<Skeleton className="h-6 w-6 rounded-full" />
+				<Skeleton className="h-4 w-10 rounded-lg" />
+
+			</div>
+		);
 	}
 
 	const isDark = currentTheme === "dark";

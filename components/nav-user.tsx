@@ -24,10 +24,45 @@ import { SignOutButton, useUser } from "@clerk/nextjs"
 import { LogOut, User } from "lucide-react"
 import Link from "next/link"
 import { Skeleton } from "./ui/skeleton"
+import { Button } from "./ui/button"
 
 export function NavUser() {
   const { isMobile } = useSidebar()
-  const { user, isLoaded } = useUser();
+  const { user, isLoaded, isSignedIn } = useUser();
+
+  if (!isLoaded) {
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton size="lg" className="pointer-events-none">
+            <Skeleton className="h-8 w-10 rounded-lg" />
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <Skeleton className="h-4 w-24" />
+            </div>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    )
+  }
+
+  if (!isSignedIn) {
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton asChild size="lg">
+            <Link href="/auth/sign-in">
+              <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <User size={16} />
+              </div>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-medium">Sign In</span>
+              </div>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    )
+  }
 
   return (
     <SidebarMenu>
@@ -40,12 +75,12 @@ export function NavUser() {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user?.imageUrl ?? undefined} alt={user?.fullName ?? undefined} />
-                <AvatarFallback className="rounded-full">
-                  <User size={14} className={`${!isLoaded ? "animate-caret-blink" : ""}`} />
+                <AvatarFallback className="rounded-md">
+                  <User size={16} />
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                {isLoaded ? <span className="truncate font-medium">{user?.fullName}</span> : <Skeleton className="h-4 w-20" />}
+                <span className="truncate font-medium">{user?.fullName}</span>
               </div>
             </SidebarMenuButton>
           </DropdownMenuTrigger>
@@ -63,21 +98,27 @@ export function NavUser() {
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user?.fullName}</span>
-                  <span className="truncate text-xs opacity-50">{user?.emailAddresses[0].emailAddress}</span>
+                  <span className="truncate text-xs opacity-50">
+                    {user?.primaryEmailAddress?.emailAddress}
+                  </span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <User />
-                <Link href="/profile" className="w-full">Profile</Link>
+              <DropdownMenuItem asChild>
+                <Link href="/profile" className="flex w-full items-center gap-2">
+                  <User size={16} />
+                  Profile
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem variant="destructive">
-              <LogOut />
-              <SignOutButton />
+            <DropdownMenuItem variant="destructive" asChild>
+              <div className="flex w-full items-center gap-2">
+                <LogOut size={16} />
+                <SignOutButton />
+              </div>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
