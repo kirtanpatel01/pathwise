@@ -22,7 +22,7 @@ export interface UserClaims {
   signature: Uint8Array;
 }
 
-export function SiteHeader({ user }: { user?: UserClaims | null }) {
+export function SiteHeader({ isAuthenticated }: { isAuthenticated: boolean }) {
   const [isScrolled, setIsScrolled] = useState(false);
   
   const { scrollYProgress } = useScroll();
@@ -32,7 +32,10 @@ export function SiteHeader({ user }: { user?: UserClaims | null }) {
     restDelta: 0.001
   });
 
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -90,7 +93,7 @@ export function SiteHeader({ user }: { user?: UserClaims | null }) {
             <ModeToggle />
           </div>
 
-          {user ? (
+          {isAuthenticated ? (
             <Link href="/dashboard" className="hidden md:block">
               <Button className="rounded-full px-6 font-bold shadow-md hover:shadow-primary/20 cursor-pointer">
                 Dashboard
@@ -98,13 +101,13 @@ export function SiteHeader({ user }: { user?: UserClaims | null }) {
             </Link>
           ) : (
             <div className="hidden md:flex items-center gap-3">
-              <Link href="/auth/login">
-                <Button variant="ghost" className="rounded-full font-medium">
-                  Login
+              <Link href="/auth/sign-in">
+                <Button variant="ghost" className="rounded-full font-medium cursor-pointer">
+                  Sign In
                 </Button>
               </Link>
-              <Link href="/auth/signup">
-                <Button className="rounded-full px-6 font-bold shadow-lg shadow-primary/20">
+              <Link href="/auth/sign-up">
+                <Button className="rounded-full px-6 font-bold shadow-lg shadow-primary/20 cursor-pointer">
                   Get started
                 </Button>
               </Link>
@@ -112,53 +115,55 @@ export function SiteHeader({ user }: { user?: UserClaims | null }) {
           )}
 
           {/* Mobile Menu */}
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button size="icon" variant="ghost" className="md:hidden rounded-full">
-                <Menu className="h-6 w-6" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="flex flex-col border-l-0 bg-background/95 backdrop-blur-xl">
-              <SheetHeader className="text-left border-b pb-6">
-                <SheetTitle className="flex items-center gap-2">
-                  <Zap className="h-5 w-5 text-primary fill-current" />
-                  Pathwise
-                </SheetTitle>
-              </SheetHeader>
+          {mounted && (
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button size="icon" variant="ghost" className="md:hidden rounded-full">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="flex flex-col border-l-0 bg-background/95 backdrop-blur-xl">
+                <SheetHeader className="text-left border-b pb-6">
+                  <SheetTitle className="flex items-center gap-2">
+                    <Zap className="h-5 w-5 text-primary fill-current" />
+                    Pathwise
+                  </SheetTitle>
+                </SheetHeader>
 
-              <div className="flex flex-col gap-6 py-8">
-                {navLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    className="text-2xl font-bold tracking-tight hover:text-primary transition-colors"
-                  >
-                    {link.name}
-                  </a>
-                ))}
-              </div>
-
-              <div className="mt-auto flex flex-col gap-4 border-t pt-8">
-                {user ? (
-                  <Link href="/dashboard" className="w-full">
-                    <Button className="w-full h-12 text-lg font-bold">Dashboard</Button>
-                  </Link>
-                ) : (
-                  <>
-                    <Link href="/auth/login" className="w-full">
-                      <Button variant="outline" className="w-full h-12 text-lg">Login</Button>
-                    </Link>
-                    <Link href="/auth/signup" className="w-full">
-                      <Button className="w-full h-12 text-lg font-bold">Get started</Button>
-                    </Link>
-                  </>
-                )}
-                <div className="flex justify-center pt-4">
-                  <ModeToggle />
+                <div className="flex flex-col gap-6 py-8">
+                  {navLinks.map((link) => (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className="text-2xl font-bold tracking-tight hover:text-primary transition-colors"
+                    >
+                      {link.name}
+                    </a>
+                  ))}
                 </div>
-              </div>
-            </SheetContent>
-          </Sheet>
+
+                <div className="mt-auto flex flex-col gap-4 border-t pt-8">
+                  {isAuthenticated ? (
+                    <Link href="/dashboard" className="w-full">
+                      <Button className="w-full h-12 text-lg font-bold cursor-pointer">Dashboard</Button>
+                    </Link>
+                  ) : (
+                    <>
+                      <Link href="/auth/sign-in" className="w-full">
+                        <Button variant="outline" className="w-full h-12 text-lg cursor-pointer">Sign In</Button>
+                      </Link>
+                      <Link href="/auth/sign-up" className="w-full">
+                        <Button className="w-full h-12 text-lg font-bold cursor-pointer">Get started</Button>
+                      </Link>
+                    </>
+                  )}
+                  <div className="flex justify-center pt-4">
+                    <ModeToggle />
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+          )}
         </div>
       </div>
     </header>

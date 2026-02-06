@@ -16,14 +16,14 @@ import {
 	SidebarMenuButton,
 } from "@/components/ui/sidebar";
 
-import { LayoutDashboard, Map, User, LogOut, Zap } from "lucide-react";
+import { LayoutDashboard, Map, Zap } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
-import { signOut } from "@/app/auth/actions";
+import { NavUser } from "./nav-user";
+import SecondaryNav from "./secondary-nav";
 
 const navItems = [
 	{ title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
 	{ title: "Roadmap", href: "/roadmap", icon: Map },
-	{ title: "Profile", href: "/profile", icon: User },
 ];
 
 export function AppSidebar() {
@@ -46,7 +46,6 @@ export function AppSidebar() {
 
 			<SidebarContent>
 				<SidebarGroup>
-					<SidebarGroupLabel>Modules</SidebarGroupLabel>
 					<SidebarGroupContent>
 						<SidebarMenu>
 							{navItems.map((item) => {
@@ -70,30 +69,11 @@ export function AppSidebar() {
 						</SidebarMenu>
 					</SidebarGroupContent>
 				</SidebarGroup>
+				<SecondaryNav className="mt-auto" />
 			</SidebarContent>
 
-			{/* ================= Footer ================= */}
 			<SidebarFooter>
-				<SidebarGroupLabel>Actions</SidebarGroupLabel>
-				<SidebarGroupContent>
-					<SidebarMenu>
-						<SidebarMenuItem>
-							<SidebarMenuButton className="cursor-pointer">
-								<ModeToggle asChild />
-							</SidebarMenuButton>
-						</SidebarMenuItem>
-
-						<SidebarMenuItem>
-							<SidebarMenuButton
-								onClick={async () => await signOut()}
-								className="text-destructive hover:text-destructive hover:bg-destructive/10 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 cursor-pointer"
-							>
-								<LogOut />
-								<span>Logout</span>
-							</SidebarMenuButton>
-						</SidebarMenuItem>
-					</SidebarMenu>
-				</SidebarGroupContent>
+				<NavUser />
 			</SidebarFooter>
 		</Sidebar>
 	);

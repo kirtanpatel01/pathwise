@@ -6,20 +6,15 @@ import Hero from "@/components/landing-page/hero";
 import Problem from "@/components/landing-page/problem";
 import WhoIsThisFor from "@/components/landing-page/who-is-this-for";
 import Footer from "@/components/landing-page/footer";
-import { createClient } from "@/lib/supabase/server";
 import FinalCTA from "@/components/landing-page/cta";
+import { auth } from "@clerk/nextjs/server";
 
 export default async function HomePage() {
-	const supabase = await createClient();
-
-	const { data: user, error } = await supabase.auth.getClaims();
-	if (error) {
-		console.error("Error fetching user claims:", error);
-	}
+	const { isAuthenticated } = await auth()
 
 	return (
 		<>
-			<SiteHeader user={user} />
+			<SiteHeader isAuthenticated={isAuthenticated} />
 			<main>
 				<Hero />
 				<Problem />
