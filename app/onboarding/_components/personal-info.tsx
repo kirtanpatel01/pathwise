@@ -1,6 +1,7 @@
 "use client";
 
-import { Control, useWatch } from "react-hook-form";
+import { Control, useWatch, Controller } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { OnboardingFormData } from "../types";
 import {
   Field,
@@ -20,14 +21,18 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Controller } from "react-hook-form";
-import { User, Building2, MapPin } from "lucide-react";
+import { Building2, MapPin, ChevronDown } from "lucide-react";
 
 interface PersonalInfoProps {
   control: Control<OnboardingFormData>;
 }
 
 export function PersonalInfo({ control }: PersonalInfoProps) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const status = useWatch({ control, name: "status" });
 
   const currentYear = new Date().getFullYear();
@@ -40,29 +45,6 @@ export function PersonalInfo({ control }: PersonalInfoProps) {
 
   return (
     <div className="space-y-4 w-full">
-      {/* Full Name */}
-      <Controller
-        name="full_name"
-        control={control}
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor={field.name}>Full name</FieldLabel>
-            <InputGroup>
-              <InputGroupAddon>
-                <User />
-              </InputGroupAddon>
-              <InputGroupInput
-                {...field}
-                id={field.name}
-                placeholder="e.g. John Doe"
-                aria-invalid={fieldState.invalid}
-              />
-            </InputGroup>
-            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-          </Field>
-        )}
-      />
-
       {/* Institute */}
       <Controller
         name="institute"
@@ -81,7 +63,7 @@ export function PersonalInfo({ control }: PersonalInfoProps) {
                 aria-invalid={fieldState.invalid}
               />
             </InputGroup>
-            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
           </Field>
         )}
       />
@@ -104,7 +86,7 @@ export function PersonalInfo({ control }: PersonalInfoProps) {
                 aria-invalid={fieldState.invalid}
               />
             </InputGroup>
-            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
           </Field>
         )}
       />
@@ -116,25 +98,32 @@ export function PersonalInfo({ control }: PersonalInfoProps) {
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid} className="w-32">
             <FieldLabel>Status</FieldLabel>
-            <Select value={field.value} onValueChange={field.onChange}>
-              <SelectTrigger aria-invalid={fieldState.invalid}>
-                <SelectValue placeholder="Select status">
-                  {field.value ? statusLabels[field.value] : undefined}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="student">Student</SelectItem>
-                <SelectItem value="graduate">Graduate</SelectItem>
-                <SelectItem value="professional">Professional</SelectItem>
-              </SelectContent>
-            </Select>
-            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            {mounted ? (
+              <Select value={field.value} onValueChange={field.onChange}>
+                <SelectTrigger aria-invalid={fieldState.invalid}>
+                  <SelectValue placeholder="Select status">
+                    {field.value ? statusLabels[field.value as keyof typeof statusLabels] : undefined}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="student">Student</SelectItem>
+                  <SelectItem value="graduate">Graduate</SelectItem>
+                  <SelectItem value="professional">Professional</SelectItem>
+                </SelectContent>
+              </Select>
+            ) : (
+              <div className="flex h-9 w-full items-center justify-between gap-2 rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs opacity-50">
+                <span className="text-muted-foreground">Select status</span>
+                <ChevronDown size={16} className="text-muted-foreground opacity-50" />
+              </div>
+            )}
+            {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
           </Field>
         )}
       />
 
       {/* Graduation Year - Conditional */}
-      {status === "student" && (
+      {mounted && status === "student" ? (
         <Controller
           name="graduation_year"
           control={control}
@@ -159,11 +148,11 @@ export function PersonalInfo({ control }: PersonalInfoProps) {
                 </SelectContent>
               </Select>
               <FieldDescription>Expected year of graduation</FieldDescription>
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
             </Field>
           )}
         />
-      )}
+      ) : null}
     </div>
   );
 }

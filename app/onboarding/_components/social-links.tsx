@@ -42,7 +42,7 @@ export function SocialLinks({ control }: SocialLinksProps) {
                   aria-invalid={fieldState.invalid}
                 />
               </InputGroup>
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
             </Field>
           )}
         />
@@ -64,7 +64,7 @@ export function SocialLinks({ control }: SocialLinksProps) {
                   aria-invalid={fieldState.invalid}
                 />
               </InputGroup>
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
             </Field>
           )}
         />
@@ -87,7 +87,7 @@ export function SocialLinks({ control }: SocialLinksProps) {
                   aria-invalid={fieldState.invalid}
                 />
               </InputGroup>
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
             </Field>
           )}
         />
@@ -103,7 +103,7 @@ export function SocialLinks({ control }: SocialLinksProps) {
                   placeholder="e.g. Software Engineer"
                   aria-invalid={fieldState.invalid}
                 />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
             </Field>
           )}
         />

@@ -12,9 +12,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ModeToggle } from "../mode-toggle";
 import Link from "next/link";
 import { JwtHeader, JwtPayload } from "@supabase/supabase-js";
+import { useAuth } from "@clerk/nextjs";
 
 export interface UserClaims {
   claims: JwtPayload;
@@ -22,8 +24,10 @@ export interface UserClaims {
   signature: Uint8Array;
 }
 
-export function SiteHeader({ isAuthenticated }: { isAuthenticated: boolean }) {
+export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { isSignedIn, isLoaded, sessionClaims } = useAuth();
+  const onboardingComplete = sessionClaims?.metadata?.onboardingComplete === true;
   
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -93,10 +97,14 @@ export function SiteHeader({ isAuthenticated }: { isAuthenticated: boolean }) {
             <ModeToggle />
           </div>
 
-          {isAuthenticated ? (
-            <Link href="/dashboard" className="hidden md:block">
+          {!mounted || !isLoaded ? (
+            <div className="hidden md:block">
+              <Skeleton className="h-9 w-30 rounded-full" />
+            </div>
+          ) : isSignedIn ? (
+            <Link href={onboardingComplete ? "/dashboard" : "/onboarding"} className="hidden md:block">
               <Button className="rounded-full px-6 font-bold shadow-md hover:shadow-primary/20 cursor-pointer">
-                Dashboard
+                {onboardingComplete ? "Dashboard" : "Onboarding"}
               </Button>
             </Link>
           ) : (
@@ -143,9 +151,13 @@ export function SiteHeader({ isAuthenticated }: { isAuthenticated: boolean }) {
                 </div>
 
                 <div className="mt-auto flex flex-col gap-4 border-t pt-8">
-                  {isAuthenticated ? (
-                    <Link href="/dashboard" className="w-full">
-                      <Button className="w-full h-12 text-lg font-bold cursor-pointer">Dashboard</Button>
+                  {!isLoaded ? (
+                    <Skeleton className="h-13 w-full rounded-lg" />
+                  ) : isSignedIn ? (
+                    <Link href={onboardingComplete ? "/dashboard" : "/onboarding"} className="w-full">
+                      <Button className="w-full h-12 text-lg font-bold cursor-pointer">
+                        {onboardingComplete ? "Dashboard" : "Onboarding"}
+                      </Button>
                     </Link>
                   ) : (
                     <>

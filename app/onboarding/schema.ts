@@ -3,8 +3,6 @@ import { z } from "zod";
 const currentYear = new Date().getFullYear();
 
 export const onboardingSchema = z.object({
-	full_name: z.string().min(2, "Name is too short"),
-
 	institute: z.string().min(2, "Institute is required"),
 
 	status: z.enum(["student", "graduate", "professional"]),

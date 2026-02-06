@@ -5,19 +5,20 @@ import { ArrowUpRight, CheckCircle2, Sparkles, TrendingUp } from "lucide-react";
 import { motion, easeInOut } from "motion/react";
 import Link from "next/link";
 
-function Hero() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
-    },
-  };
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+  },
+};
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easeInOut } },
-  };
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easeInOut } },
+};
+
+function Hero() {
 
   return (
     <section className="relative overflow-hidden py-20 lg:py-32">
@@ -109,7 +110,7 @@ function Hero() {
                       <span className={`text-sm font-semibold ${step.status === 'pending' ? 'text-muted-foreground' : ''}`}>
                         {step.label}
                       </span>
-                      {step.status === 'completed' && <CheckCircle2 className="h-4 w-4 text-primary" />}
+                      {step.status === 'completed' ? <CheckCircle2 className="h-4 w-4 text-primary" /> : null}
                     </div>
                     <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
                       <motion.div 

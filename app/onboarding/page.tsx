@@ -1,7 +1,7 @@
+import { ModeToggle } from "@/components/mode-toggle";
 import { ProfileForm } from "./onboarding-form";
 
 export default async function page() {
-
 	const initialData = {
 		full_name: "",
 		institute: "",
@@ -15,6 +15,7 @@ export default async function page() {
 	}
 	return (
 		<div className="max-w-5xl w-full mx-auto p-0 sm:p-6 min-h-screen flex items-center justify-center">
+			<ModeToggle className="absolute top-6 right-6" />
 			<ProfileForm initialData={initialData} />
 		</div>
 	);

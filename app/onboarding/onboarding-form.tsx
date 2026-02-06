@@ -7,7 +7,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { OnboardingFormData } from "./types";
 import { onboardingSchema } from "./schema";
-import { updateProfile } from "./actions";
+import { updateProfile } from "./_actions";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +20,9 @@ import {
 } from "@/components/ui/card";
 import { PersonalInfo } from "./_components/personal-info";
 import { SocialLinks } from "./_components/social-links";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Info, Link, SquareArrowOutUpRight, SquareArrowUpRight } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
 
 interface ProfileFormProps {
 	initialData?: Partial<OnboardingFormData>;
@@ -28,12 +31,12 @@ interface ProfileFormProps {
 export function ProfileForm({ initialData }: ProfileFormProps) {
 	const router = useRouter();
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const { user } = useUser();
 
 	const form = useForm<OnboardingFormData>({
 		resolver: zodResolver(onboardingSchema),
 
 		defaultValues: {
-			full_name: initialData?.full_name || "",
 			institute: initialData?.institute || "",
 			status: initialData?.status || undefined,
 			graduation_year: initialData?.graduation_year || undefined,
@@ -49,9 +52,14 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
 		setIsSubmitting(true);
 
 		try {
-			await updateProfile(data);
-			toast.success("Profile saved successfully.");
-			router.push("/dashboard");
+			const { success, error } = await updateProfile(data);
+			if (success) {
+				toast.success("Profile saved successfully.");
+				await user?.reload();
+				router.push("/dashboard");
+			} else {
+				toast.error(error);
+			}
 		} catch (error) {
 			toast.error("Failed to save profile information.");
 			console.error(error);
@@ -63,7 +71,17 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
 	return (
 		<Card className="flex-1">
 			<CardHeader>
-				<CardTitle>Profile Details</CardTitle>
+				<CardTitle className="flex items-center gap-3">
+					<span>Profile Details</span>
+					<Tooltip>
+						<TooltipTrigger>
+							<Info size={16} className="text-amber-600" />
+						</TooltipTrigger>
+						<TooltipContent>
+							Please complete this information to get started.
+						</TooltipContent>
+					</Tooltip>
+				</CardTitle>
 
 				<CardDescription>
 					This information helps us personalize your experience.
@@ -89,10 +107,10 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
 				<Button
 					type="submit"
 					form="profile-form"
-					className="w-full h-11 text-base"
+					className="w-full h-11 text-base cursor-pointer"
 					disabled={isSubmitting}
 				>
-					{isSubmitting ? "Saving…" : "Save & Continue"}
+					{isSubmitting ? "Saving…" : <span className="flex items-center gap-2">Save & Dashboard <SquareArrowOutUpRight /></span>}
 				</Button>
 			</CardFooter>
 		</Card>

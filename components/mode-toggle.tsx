@@ -4,9 +4,7 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
-import { Spinner } from "./ui/spinner";
-import { Skeleton } from "./ui/skeleton";
+import { useEffect, useState, useCallback } from "react";
 
 type ModeToggleProps = {
 	className?: string;
@@ -14,18 +12,16 @@ type ModeToggleProps = {
 };
 
 export function ModeToggle({ className, asChild }: ModeToggleProps) {
-	const { theme, setTheme, resolvedTheme } = useTheme();
+	const { setTheme, resolvedTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
 
 	useEffect(() => {
 		setMounted(true);
 	}, []);
 
-	const currentTheme = theme === "system" ? resolvedTheme : theme;
-
-	const toggleTheme = () => {
-		setTheme(currentTheme === "dark" ? "light" : "dark");
-	};
+	const toggleTheme = useCallback(() => {
+		setTheme(resolvedTheme === "dark" ? "light" : "dark");
+	}, [resolvedTheme, setTheme]);
 
 	useEffect(() => {
 		if (!mounted) return;
@@ -43,26 +39,18 @@ export function ModeToggle({ className, asChild }: ModeToggleProps) {
 
 		window.addEventListener("keydown", handleKeyDown);
 		return () => window.removeEventListener("keydown", handleKeyDown);
-	}, [mounted, currentTheme, toggleTheme]);
-
-	if (!mounted) {
-		return (
-			<div className="flex items-center gap-1">
-				<Skeleton className="h-6 w-6 rounded-full" />
-				<Skeleton className="h-4 w-10 rounded-lg" />
-
-			</div>
-		);
-	}
-
-	const isDark = currentTheme === "dark";
+	}, [mounted, toggleTheme]);
 
 	const Content = (
 		<>
 			{asChild ? (
 				<div className="flex items-center gap-2">
-					{isDark ? <Moon size={18} /> : <Sun size={18} />}
-					<span>{isDark ? "Dark" : "Light"}</span>
+					<div className="relative flex h-4 w-4 items-center justify-center">
+						<Sun size={18} className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+						<Moon size={18} className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+					</div>
+					<span className="dark:hidden">Light</span>
+					<span className="hidden dark:inline">Dark</span>
 				</div>
 			) : (
 				<>

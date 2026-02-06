@@ -41,7 +41,7 @@ export function SiteHeader() {
                     <BreadcrumbLink href={href}>{label}</BreadcrumbLink>
                   )}
                 </BreadcrumbItem>,
-                !isLast && <BreadcrumbSeparator key={`${href}-sep`} />
+                !isLast ? <BreadcrumbSeparator key={`${href}-sep`} /> : null
               ].filter((item): item is React.ReactElement => Boolean(item));
             })}
           </BreadcrumbList>

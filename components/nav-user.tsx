@@ -24,7 +24,6 @@ import { SignOutButton, useUser } from "@clerk/nextjs"
 import { LogOut, User } from "lucide-react"
 import Link from "next/link"
 import { Skeleton } from "./ui/skeleton"
-import { Button } from "./ui/button"
 
 export function NavUser() {
   const { isMobile } = useSidebar()

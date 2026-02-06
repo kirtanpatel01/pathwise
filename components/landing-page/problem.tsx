@@ -3,24 +3,25 @@
 import { XCircle, AlertCircle, HelpCircle, ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 
+const problems = [
+  {
+    title: "The Course Trap",
+    description: "Courses teach you tools, but they don't map to real job requirements. You're left with skills that don't move the needle.",
+    icon: <XCircle className="h-6 w-6 text-red-500" />,
+  },
+  {
+    title: "One-Size-Fits-None",
+    description: "Generic roadmaps ignore your existing strengths. You waste months learning what you already know—or skipping the basics.",
+    icon: <AlertCircle className="h-6 w-6 text-red-500" />,
+  },
+  {
+    title: "The 'Ready' Dilemma",
+    description: "Progress feels random. You don't know what to learn next, or more importantly, when you're actually job-ready.",
+    icon: <HelpCircle className="h-6 w-6 text-red-500" />,
+  },
+];
+
 function Problem() {
-  const problems = [
-    {
-      title: "The Course Trap",
-      description: "Courses teach you tools, but they don't map to real job requirements. You're left with skills that don't move the needle.",
-      icon: <XCircle className="h-6 w-6 text-red-500" />,
-    },
-    {
-      title: "One-Size-Fits-None",
-      description: "Generic roadmaps ignore your existing strengths. You waste months learning what you already know—or skipping the basics.",
-      icon: <AlertCircle className="h-6 w-6 text-red-500" />,
-    },
-    {
-      title: "The 'Ready' Dilemma",
-      description: "Progress feels random. You don't know what to learn next, or more importantly, when you're actually job-ready.",
-      icon: <HelpCircle className="h-6 w-6 text-red-500" />,
-    },
-  ];
 
   return (
     <section className="relative border-y bg-muted/30 py-24 overflow-hidden">
